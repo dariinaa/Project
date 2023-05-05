@@ -13,7 +13,6 @@ namespace Project.Data
         }
         public DbSet<Recipe> Recipe { get; set; }
         public DbSet<Review> Review { get; set; }
-        public DbSet<Role> Role { get; set; }
         public DbSet<User> User { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

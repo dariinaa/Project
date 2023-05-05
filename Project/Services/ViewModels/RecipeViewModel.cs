@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Project.Data.DataModels;
+using System.ComponentModel.DataAnnotations;
 
-namespace Project.Data.DataModels
+namespace Project.Services.ViewModels
 {
-    public class Recipe
+    public class RecipeViewModel
     {
         public string RecipeId { get; set; }
         [Key]

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Project.Data.DataModels
+namespace Project.Services.ViewModels
 {
-    public class Review
+    public class ReviewViewModel
     {
         public string ReviewId { get; set; }
         [Key]

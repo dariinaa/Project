@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Data.DataModels
 {
-    public class User
+    public class User :IdentityUser
     {
-        public string User_Id { get; set; }
-        [Key]
-        public string User_Username { get; set; }
-        public string User_Email { get; set; }
-        public string User_Password { get; set; }
-        public string User_Role { get; set; }
+        public string UserCity { get; set; }
     }
 }
