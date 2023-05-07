@@ -15,6 +15,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<RecipeService, RecipeService>();
+builder.Services.AddTransient<UserService, UserService>();
+builder.Services.AddTransient<ReviewService, ReviewService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

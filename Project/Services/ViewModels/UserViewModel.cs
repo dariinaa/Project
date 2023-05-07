@@ -1,14 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Project.Data.DataModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Services.ViewModels
 {
     public class UserViewModel
     {
-        public string UserId { get; set; }
-        [Key]
-        public string UserUsername { get; set; }
-        public string UserEmail { get; set; }
-        public string UserPassword { get; set; }
-        public string UserRole { get; set; }
+        public string UserCity { get; set; }
+        public ICollection<Recipe> UserRecipes { get; set; }
+
+        public ICollection<Review> UserReviews { get; set; }
     }
 }

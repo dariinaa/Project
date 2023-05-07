@@ -12,6 +12,9 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
                         <div class="caption">
+                            <p><label asp-for="RecipeId">RecipeId:</label></p>
+                            <input asp-for="RecipeId" class="form-control" />
+
                             <p><label asp-for="RecipeTitle">RecipeTitle:</label></p>
                             <input asp-for="RecipeTitle" class="form-control" />
 
@@ -52,7 +55,7 @@
     <div class="form-group row">
         <div class="col-10 offset-2 row">
             <div class="col">
-                <input type="submit" class="btn btn-info w-55" value="Add" />
+                <input type="submit" class="btn btn-info w-55" value="Add"/>
             </div>
             <div class="col">
                 <a asp-action="Index" class="btn btn-danger w-74">Back</a>

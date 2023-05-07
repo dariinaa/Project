@@ -4,8 +4,8 @@ namespace Project.Data.DataModels
 {
     public class Recipe
     {
-        public string RecipeId { get; set; }
         [Key]
+        public string RecipeId { get; set; }
         public string RecipeTitle { get; set; }
         //public IFormFile Recipe_Image { get; set; }
         public string RecipeVideo { get; set; }
@@ -17,8 +17,5 @@ namespace Project.Data.DataModels
         public double RecipeCookTime { get; set; }
         public double RecipeCalories { get; set; }
         public int RecipeServings { get; set; }
-
-        //public ListReview MyProperty { get; set; }
-
     }
 }

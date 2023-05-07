@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data;
 
@@ -11,9 +12,10 @@ using Project.Data;
 namespace Project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230507192355_newMigration")]
+    partial class newMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,38 +232,9 @@ namespace Project.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Project.Data.DataModels.Ingredient", b =>
-                {
-                    b.Property<int>("IngredientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IngredientId"), 1L, 1);
-
-                    b.Property<string>("IngredientName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IngredientQuantity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RecipeId1")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("IngredientId");
-
-                    b.HasIndex("RecipeId1");
-
-                    b.ToTable("Ingredient");
-                });
-
             modelBuilder.Entity("Project.Data.DataModels.Recipe", b =>
                 {
-                    b.Property<string>("RecipeId")
+                    b.Property<string>("RecipeTitle")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RecipeAuthorId")
@@ -284,6 +257,10 @@ namespace Project.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecipeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RecipeInredients")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -295,15 +272,11 @@ namespace Project.Data.Migrations
                     b.Property<int>("RecipeServings")
                         .HasColumnType("int");
 
-                    b.Property<string>("RecipeTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("RecipeVideo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RecipeId");
+                    b.HasKey("RecipeTitle");
 
                     b.HasIndex("RecipeAuthorId");
 
@@ -328,7 +301,7 @@ namespace Project.Data.Migrations
 
             modelBuilder.Entity("Project.Data.DataModels.Review", b =>
                 {
-                    b.Property<string>("ReviewId")
+                    b.Property<string>("ReviewMessage")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RecipeId")
@@ -338,7 +311,7 @@ namespace Project.Data.Migrations
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ReviewMessage")
+                    b.Property<string>("ReviewId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -349,7 +322,7 @@ namespace Project.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ReviewId");
+                    b.HasKey("ReviewMessage");
 
                     b.HasIndex("RecipeId");
 
@@ -418,15 +391,6 @@ namespace Project.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Project.Data.DataModels.Ingredient", b =>
-                {
-                    b.HasOne("Project.Data.DataModels.Recipe", "Recipe")
-                        .WithMany()
-                        .HasForeignKey("RecipeId1");
-
-                    b.Navigation("Recipe");
                 });
 
             modelBuilder.Entity("Project.Data.DataModels.Recipe", b =>
