@@ -1,0 +1,79 @@
+﻿@model Project.Services.ViewModels.RecipeViewModel
+
+
+
+<div class="d-flex justify-content-between align-items-center" style="border-bottom: 1px solid white">
+    <div>
+        <a class="btn btn-outline-secondary" asp-action="Index">Back to List</a>
+    </div>
+
+</div>
+<div class="row mt-5">
+    <div class="mx-auto" style="width: 40%">
+        <form asp-action="Update" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecipeId" />
+            <div class="form-group">
+                <label asp-for="RecipeTitle" class="control-label"></label>
+                <input asp-for="RecipeTitle" class="form-control" />
+                <span asp-validation-for="RecipeTitle" class="text-danger"></span>
+            </div>
+          <div class="form-group">
+                <label asp-for="RecipeVideo" class="control-label"></label>
+                <input asp-for="RecipeVideo" class="form-control" />
+                <span asp-validation-for="RecipeVideo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeInredients" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeInredients" class="form-control" />
+                <span asp-validation-for="RecipeInredients" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeDescription" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeDescription" class="form-control" />
+                <span asp-validation-for="RecipeDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeAuthor" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeAuthor" class="form-control" />
+                <span asp-validation-for="RecipeAuthor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeIntroduction" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeIntroduction" class="form-control" />
+                <span asp-validation-for="RecipeIntroduction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeDirections" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeDirections" class="form-control" />
+                <span asp-validation-for="RecipeDirections" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeCookTime" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeCookTime" class="form-control" />
+                <span asp-validation-for="RecipeCookTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeCalories" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeCalories" class="form-control" />
+                <span asp-validation-for="RecipeCalories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeServings" class="control-label"></label>
+                <br />
+                <input asp-for="RecipeServings" class="form-control" />
+                <span asp-validation-for="RecipeServings" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center">
+                <input class="btn btn-danger w-50 mt-2" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -34,5 +34,27 @@ namespace Project.Controllers
             await recipeService.AddRecipe(recipeVM);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public IActionResult Update(string id)
+        {
+            RecipeViewModel movie = this.recipeService.UpdateById(id);
+
+            return this.View(movie);
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Update(RecipeViewModel model)
+        {
+            if (this.ModelState.IsValid == false)
+            {
+                return this.View(model);
+            }
+
+            await this.recipeService.UpdateAsync(model);
+
+            return this.RedirectToAction("index");
+        }
     }
 }
