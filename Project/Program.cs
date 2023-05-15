@@ -17,6 +17,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<RecipeService, RecipeService>();
 builder.Services.AddTransient<UserService, UserService>();
 builder.Services.AddTransient<ReviewService, ReviewService>();
+builder.Services.AddTransient<RecipeCategoryService, RecipeCategoryService>();
+
+
 
 
 var app = builder.Build();

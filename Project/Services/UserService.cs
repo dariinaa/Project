@@ -13,40 +13,12 @@ namespace Project.Services
         }
         public List<User> GetAll()
         {
-            return context.User.Select(recipe => new User()
+            return context.User.Select(user => new User()
             {
-                UserName = recipe.UserName,
+                UserName = user.UserName,
+                Email = user.Email,
+                UserCity = user.UserCity,
             }).ToList();
-        }
-        public User GetDetailsById(string userId)
-        {
-            User user = context.User
-                .Select(recipe => new User
-                {
-                    UserName = recipe.UserName,
-                    Email = recipe.Email,
-                    UserCity = recipe.UserCity,
-                }).SingleOrDefault(user => user.Id == userId);
-
-            return user;
-        }
-        public async Task AddUser(User user)
-        {
-            var userDb = new User();
-            userDb.UserName = user.UserName;
-            userDb.Email = user.Email;
-            userDb.PasswordHash = user.PasswordHash;
-            userDb.PhoneNumber = user.PhoneNumber;
-            userDb.UserCity = user.UserCity;
-            if (user.UserName != null)
-            {
-                context.Add(userDb);
-                await context.SaveChangesAsync();
-            }
-            else
-            {
-                Console.WriteLine("Eror!");
-            }
         }
     }
 }
