@@ -9,5 +9,6 @@
     <div class="title">
         <p>@item.RecipeTitle</p>
         <a asp-area="" asp-controller="Recipe" asp-action="Update">Update Recipe</a>
+        <a asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@item.RecipeId">Delete Recipe</a>
     </div>
 }

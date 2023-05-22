@@ -15,6 +15,7 @@ namespace Project.Services
         {
             return context.Recipe.Select(recipe => new RecipeViewModel()
             {
+                RecipeId = recipe.RecipeId,
                 RecipeTitle = recipe.RecipeTitle,
                 RecipeDescription = recipe.RecipeDescription,
                 RecipeAuthor = recipe.RecipeAuthor,
@@ -66,6 +67,7 @@ namespace Project.Services
                 Console.WriteLine("Eror!");
             }
         }
+
         public async Task DeleteRecipe(string id)
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))

@@ -17,9 +17,9 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<RecipeViewModel> movies = recipeService.GetAll();
+            List<RecipeViewModel> recipes = recipeService.GetAll();
 
-            return this.View(movies);
+            return this.View(recipes);
         }
         [HttpGet]
         public IActionResult AddRecipe()
@@ -38,9 +38,9 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult Update(string id)
         {
-            RecipeViewModel movie = this.recipeService.UpdateById(id);
+            RecipeViewModel recipe = this.recipeService.UpdateById(id);
 
-            return this.View(movie);
+            return this.View(recipe);
         }
 
         [HttpPost]
@@ -55,6 +55,40 @@ namespace Project.Controllers
             await this.recipeService.UpdateAsync(model);
 
             return this.RedirectToAction("index");
+        }
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                RecipeViewModel recipe = recipeService.GetDetailsById(id);
+
+                return View(recipe);
+            }
+            catch (ArgumentException e)
+            {
+                ViewData["Message"] = e.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmation(string id)
+        {
+            try
+            {
+                Console.WriteLine(id);
+                await recipeService.DeleteRecipe(id);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException e)
+            {
+                ViewData["Message"] = e.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
