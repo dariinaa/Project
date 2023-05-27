@@ -10,6 +10,8 @@ namespace Project.Services
         {
             context = post;
         }
+
+        //getAll
         public List<RecipeCategoryViewModel> GetAll()
         {
             return context.RecipeCategory.Select(recipeCategory => new RecipeCategoryViewModel()

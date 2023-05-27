@@ -11,6 +11,8 @@ namespace Project.Services
         {
             context = post;
         }
+
+        //getAll
         public List<User> GetAll()
         {
             return context.User.Select(user => new User()

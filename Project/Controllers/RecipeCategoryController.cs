@@ -11,6 +11,8 @@ namespace Project.Controllers
         {
             recipeCategoryService = service;
         }
+
+        //index
         public IActionResult Index()
         {
             List<RecipeCategoryViewModel> recipeCategories = recipeCategoryService.GetAll();

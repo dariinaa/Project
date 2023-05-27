@@ -9,7 +9,7 @@ namespace Project.Services.ViewModels
         public string RecipeId { get; set; }
         public string RecipeTitle { get; set; }
         //public IFormFile Recipe_Image { get; set; }
-        public string RecipeVideo { get; set; }
+        public string RecipeVideo { get; set; } // Property for the image URL or file path
         public string RecipeInredients { get; set; }
         public string RecipeDescription { get; set; }
         public User RecipeAuthor { get; set; }

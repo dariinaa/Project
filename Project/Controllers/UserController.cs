@@ -12,6 +12,8 @@ namespace Project.Controllers
         {
             userService = service;
         }
+
+        //index
         [HttpGet]
         public IActionResult Index()
         {

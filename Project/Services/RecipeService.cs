@@ -11,6 +11,8 @@ namespace Project.Services
         {
             context = post;
         }
+
+        //getAll
         public List<RecipeViewModel> GetAll()
         {
             return context.Recipe.Select(recipe => new RecipeViewModel()
@@ -22,6 +24,8 @@ namespace Project.Services
 
             }).ToList();
         }
+
+        //getDetailsById
         public RecipeViewModel GetDetailsById(string recipeId)
         {
             RecipeViewModel recipe = context.Recipe
@@ -43,6 +47,8 @@ namespace Project.Services
 
             return recipe;
         }
+
+        //addRecipe
         public async Task AddRecipe(RecipeViewModel recipe)
         {
             var recipeDb = new Recipe();
@@ -68,6 +74,7 @@ namespace Project.Services
             }
         }
 
+        //deleteRecipe
         public async Task DeleteRecipe(string id)
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
@@ -76,11 +83,13 @@ namespace Project.Services
             }
             if (id != null)
             {
-                var recipeDb = context.Recipe.FirstOrDefault(x => x.RecipeId.ToString() == id);
+                var recipeDb = context.Recipe.FirstOrDefault(x => x.RecipeId == id);
                 context.Recipe.Remove(recipeDb);
                 await context.SaveChangesAsync();
             }
         }
+
+        //updateById
         public RecipeViewModel UpdateById(string recipeId)
         {
             RecipeViewModel recipe = context.Recipe
@@ -101,6 +110,8 @@ namespace Project.Services
 
             return recipe;
         }
+
+        //updateAsync
         public async Task UpdateAsync(RecipeViewModel model)
         {
             Recipe recipe = context.Recipe.Find(model.RecipeId);

@@ -3,8 +3,8 @@
 *@
 @{
 }
+
 @model Project.Services.ViewModels.RecipeViewModel
-{
 <div>
     <p>Are you sure you want to delete the recipe?</p>
     <form method ="post" asp-action="DeleteConfirmation">
@@ -12,4 +12,4 @@
         <input type ="hidden" value="@Model.RecipeId"/>
         <button type="submit" class="btn btn-danger">Delete</button>
     </form>
-</div
+</div>

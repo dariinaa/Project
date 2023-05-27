@@ -14,6 +14,8 @@ namespace Project.Controllers
         {
             recipeService = service;
         }
+
+        //index
         [HttpGet]
         public IActionResult Index()
         {
@@ -21,12 +23,30 @@ namespace Project.Controllers
 
             return this.View(recipes);
         }
+
+        //getDeatails
+        [HttpGet]
+        public IActionResult Details(string id)
+        {
+            RecipeViewModel recipe = recipeService.GetDetailsById(id);
+
+            bool isCourseNull = recipe == null;
+            if (isCourseNull)
+            {
+                return this.RedirectToAction("Index");
+            }
+
+            return this.View(recipe);
+        }
+
+        //add
         [HttpGet]
         public IActionResult AddRecipe()
         {
             return View();
         }
 
+        //add
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeVideo", "RecipeInredients", "RecipeDescription", "RecipeAuthor", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings")] RecipeViewModel recipeVM)
@@ -35,6 +55,7 @@ namespace Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //update
         [HttpGet]
         public IActionResult Update(string id)
         {
@@ -43,6 +64,7 @@ namespace Project.Controllers
             return this.View(recipe);
         }
 
+        //update
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Update(RecipeViewModel model)
@@ -56,6 +78,8 @@ namespace Project.Controllers
 
             return this.RedirectToAction("index");
         }
+
+        //delete
         [HttpGet]
         public IActionResult Delete(string id)
         {
@@ -72,6 +96,8 @@ namespace Project.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        //deleteConfirmation
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmation(string id)
@@ -79,8 +105,8 @@ namespace Project.Controllers
             try
             {
                 Console.WriteLine(id);
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 await recipeService.DeleteRecipe(id);
-
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException e)
