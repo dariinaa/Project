@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Project.Data.DataModels.User>
+
+@foreach (var @item in Model)
+{
+    <div class="username">@item.UserName</div>
+    <div class="username">@item.Email</div>
+    <div class="username">@item.PhoneNumber</div>
+    <div class="username">@item.UserCity</div>
+}

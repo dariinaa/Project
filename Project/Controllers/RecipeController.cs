@@ -49,7 +49,7 @@ namespace Project.Controllers
         //add
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeVideo", "RecipeInredients", "RecipeDescription", "RecipeAuthor", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings")] RecipeViewModel recipeVM)
+        public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeAuthorId", "RecipeCategoryId", "CuisineId")] RecipeViewModel recipeVM)
         {
             await recipeService.AddRecipe(recipeVM);
             return RedirectToAction(nameof(Index));

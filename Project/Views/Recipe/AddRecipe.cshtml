@@ -3,6 +3,7 @@
 *@
 @{
 }
+
 @model Project.Services.ViewModels.RecipeViewModel
 
 <head>
@@ -31,17 +32,14 @@
         <p><label asp-for="RecipeTitle">RecipeTitle:</label></p>
         <input asp-for="RecipeTitle" class="form-control" />
 
-        <p><label asp-for="RecipeVideo">RecipeVideo:</label></p>
-        <input asp-for="RecipeVideo" class="form-control" />
+        <p><label asp-for="RecipeImage">RecipeVideo:</label></p>
+        <input asp-for="RecipeImage" class="form-control" />
 
         <p><label asp-for="RecipeInredients">RecipeInredients:</label></p>
         <textarea asp-for="RecipeInredients" class="form-control" id="RecipeInredients" name="RecipeInredients" rows="4" cols="50"></textarea>
 
         <p><label asp-for="RecipeDescription">RecipeDescription:</label></p>
         <textarea asp-for="RecipeDescription" class="form-control" id="RecipeDescription" name="RecipeDescription" rows="4" cols="50"></textarea>
-        
-        <p><label asp-for="RecipeAuthor">RecipeAuthor:</label></p>
-        <input asp-for="RecipeAuthor" class="form-control" />
 
         <p><label asp-for="RecipeIntroduction">RecipeIntroduction:</label></p>
         <textarea asp-for="RecipeIntroduction" class="form-control" id="RecipeIntroduction" name="RecipeIntroduction" rows="4" cols="50"></textarea>
@@ -57,6 +55,15 @@
 
         <p><label asp-for="RecipeServings">RecipeServings:</label></p>
         <input asp-for="RecipeServings" class="form-control" />
+
+        <p><label asp-for="RecipeAuthorId">RecipeAuthorId:</label></p>
+        <input asp-for="RecipeAuthorId" class="form-control" />
+
+        <p><label asp-for="RecipeCategoryId">RecipeCategoryId:</label></p>
+        <input asp-for="RecipeCategoryId" class="form-control" />
+
+        <p><label asp-for="CuisineId">CuisineId:</label></p>
+        <input asp-for="CuisineId" class="form-control" />
 
         <div class="buttons"></div>
         <button type="submit" class="btn btn-outline-danger" value="Add Recipe">Add Recipe</button>

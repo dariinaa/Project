@@ -15,11 +15,11 @@ namespace Project.Services
         //getAll
         public List<User> GetAll()
         {
-            return context.User.Select(user => new User()
+            return context.Users.Select(user => new User()
             {
                 UserName = user.UserName,
                 Email = user.Email,
-                UserCity = user.UserCity,
+                //UserCity = user.UserCity,
             }).ToList();
         }
     }

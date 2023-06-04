@@ -4,7 +4,7 @@
 @{
 }
 
-@model List<Project.Services.ViewModels.RecipeCategoryViewModel>
+@model List<Project.Services.ViewModels.CuisineViewModel>
 
 @foreach (var @item in Model)
 {
@@ -32,11 +32,11 @@
 </head>
 
     <div class="title">
-        <p>@item.RecipeCategoryName</p>
+        <p>@item.CuisineName</p>
     </div>
 
     <div class="image">
-        <img src="@item.RecipeCategoryImage"/>
+        <img src="@item.CuisineImage"/>
     </div>
 }
 

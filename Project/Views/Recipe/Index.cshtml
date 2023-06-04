@@ -3,13 +3,62 @@
 *@
 @{
 }
+
 @model List<Project.Services.ViewModels.RecipeViewModel>
-@foreach (var item in Model)
+
+@foreach (var @item in Model)
 {
+<head>
+    <style>
+        img{
+            height:300px;
+            width:500px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom:30px;
+        }
+        body{
+
+        }
+        .title{
+            font-size: 50px;
+            font-weight:bold;
+        }
+        .buttons{
+            margin-bottom:30px;
+        }
+    </style>
+</head>
+
     <div class="title">
         <p>@item.RecipeTitle</p>
-        <a asp-area="" asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeId">Recipe Details</a>
-        <a asp-area="" asp-controller="Recipe" asp-action="Update">Update Recipe</a>
-        <a asp-area="" asp-controller="Recipe" asp-action="Delete" asp-route-id="@item.RecipeId">Delete Recipe</a>
     </div>
+
+    <div class="image">
+        <img src="@item.RecipeImage"/>
+    </div>
+
+    <div class="description">
+        <p>Describtion: @item.RecipeDescription</p>
+    </div>
+
+    <div class="cooktime">
+        <p>CookTime: @item.RecipeCookTime</p>
+    </div>
+
+    <div class="buttons">
+        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Recipe Details</a>
+
+        @if(User.IsInRole("Admin"))
+        {
+            <a asp-controller="Recipe" asp-action="Update" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Update Recipe</a>
+            <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Delete Recipe</a>
+        }
+    </div>
+
 }
+
+<div class="gobackbutton">
+<a asp-controller="Recipe" asp-action="Index" class="btn btn-outline-danger">Back To All Recipes</a>
+</div>

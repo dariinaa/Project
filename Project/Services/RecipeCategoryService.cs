@@ -11,12 +11,14 @@ namespace Project.Services
             context = post;
         }
 
-        //getAll
+        //get all categories
         public List<RecipeCategoryViewModel> GetAll()
         {
             return context.RecipeCategory.Select(recipeCategory => new RecipeCategoryViewModel()
             {
+                RecipeCategoryId = recipeCategory.RecipeCategoryId,
                 RecipeCategoryName = recipeCategory.RecipeCategoryName,
+                RecipeCategoryImage = recipeCategory.RecipeCategoryImage,
             }).ToList();
         }
     }
