@@ -6,6 +6,8 @@
 
 @model List<Project.Services.ViewModels.RecipeCategoryViewModel>
 
+<a asp-controller="RecipeCategory" asp-action="AddRecipeCategory" class="btn btn-outline-danger">Add Recipe Category</a>
+
 @foreach (var @item in Model)
 {
 <head>
@@ -37,6 +39,17 @@
 
     <div class="image">
         <img src="@item.RecipeCategoryImage"/>
+    </div>
+
+    <div class="buttons">
+
+        <a asp-controller="RecipeCategory" asp-action="GetRecipesByCategory" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Recipes In Category</a>
+
+        @if(User.IsInRole("Admin"))
+        {
+            <a asp-controller="RecipeCategory" asp-action="Update" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Update Recipe Category</a>
+            <a asp-controller="RecipeCategory" asp-action="Delete" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Delete Recipe Category</a>
+        }
     </div>
 }
 

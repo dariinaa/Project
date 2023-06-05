@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Project.Services.ViewModels.RecipeCategoryViewModel
+
+<head>
+    <style>
+        .buttons{
+            margin-top:30px;
+            margin-right:10px;
+        }
+        body{
+            background: #CA0000;
+        }
+        form{
+            background: white;
+            margin:150px;
+            padding:100px;
+        }
+    </style>
+</head>
+
+<form method="post" asp-action="AddRecipeCategory">
+    @Html.AntiForgeryToken()
+    <div class="container">
+
+        <p><label asp-for="RecipeCategoryName">Recipe Category Name:</label></p>
+        <input asp-for="RecipeCategoryName" class="form-control" />
+
+        <p><label asp-for="RecipeCategoryImage">Recipe Category Image:</label></p>
+        <input asp-for="RecipeCategoryImage" class="form-control" />
+
+        <div class="buttons"></div>
+
+        <button type="submit" class="btn btn-outline-danger" value="Add Recipe Category">Add Recipe Category</button>
+
+        <a asp-action="Index" class="btn btn-outline-danger">Go Back</a>
+
+        </div>
+
+    </div>
+</form>

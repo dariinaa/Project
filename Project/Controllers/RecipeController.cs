@@ -4,6 +4,7 @@ using Project.Services.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Net;
+using Project.Data.DataModels;
 
 namespace Project.Controllers
 {
@@ -24,7 +25,7 @@ namespace Project.Controllers
             return this.View(recipes);
         }
 
-        //getDeatails
+        //details recipe
         [HttpGet]
         public IActionResult Details(string id)
         {
@@ -39,14 +40,14 @@ namespace Project.Controllers
             return this.View(recipe);
         }
 
-        //add
+        //add recipe
         [HttpGet]
         public IActionResult AddRecipe()
         {
             return View();
         }
 
-        //add
+        //add recipe
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeAuthorId", "RecipeCategoryId", "CuisineId")] RecipeViewModel recipeVM)
@@ -55,39 +56,39 @@ namespace Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //update
+        //update recipe
         [HttpGet]
         public IActionResult Update(string id)
         {
             RecipeViewModel recipe = this.recipeService.UpdateById(id);
-
             return this.View(recipe);
         }
 
-        //update
+        //update recipe
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(RecipeViewModel model)
+        public async Task<IActionResult> Update(RecipeViewModel recipe)
         {
-            if (this.ModelState.IsValid == false)
+            try
             {
-                return this.View(model);
+                await recipeService.UpdateRecipe(recipe);
+                return RedirectToAction("Index");
             }
-
-            await this.recipeService.UpdateAsync(model);
-
-            return this.RedirectToAction("index");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Failed to update the recipe: {ex.Message}");
+                return View(recipe);
+            }
         }
 
-        //delete
+        //delete recipe
         [HttpGet]
         public IActionResult Delete(string id)
         {
             try
             {
-                RecipeViewModel recipe = recipeService.GetDetailsById(id);
-
-                return View(recipe);
+                recipeService.DeleteRecipe(id);
+                return RedirectToAction("Index");
             }
             catch (ArgumentException e)
             {
@@ -97,24 +98,12 @@ namespace Project.Controllers
             }
         }
 
-        //deleteConfirmation
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        //get reviews of a recipe
+        [HttpGet]
+        public IActionResult GetRecipeReviews(string id)
         {
-            try
-            {
-                Console.WriteLine(id);
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                await recipeService.DeleteRecipe(id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (ArgumentException e)
-            {
-                ViewData["Message"] = e.Message;
-
-                return RedirectToAction(nameof(Index));
-            }
+            List<ReviewViewModel> recipereviews = recipeService.GetRecipeReviews(id);
+            return this.View(recipereviews);
         }
     }
 }

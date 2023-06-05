@@ -6,6 +6,8 @@
 
 @model List<Project.Services.ViewModels.CuisineViewModel>
 
+<a asp-controller="Cuisine" asp-action="AddCuisine" class="btn btn-outline-danger">Add Cuisine</a>
+
 @foreach (var @item in Model)
 {
 <head>
@@ -38,8 +40,19 @@
     <div class="image">
         <img src="@item.CuisineImage"/>
     </div>
+
+    <div class="buttons">
+
+        <a asp-controller="Cuisine" asp-action="GetRecipesByCuisine" asp-route-id="@item.CuisineId" class="btn btn-outline-danger">Recipes In Cuisine</a>
+
+        @if(User.IsInRole("Admin"))
+        {
+            <a asp-controller="Cuisine" asp-action="Update" asp-route-id="@item.CuisineId" class="btn btn-outline-danger">Update Cuisine</a>
+            <a asp-controller="Cuisine" asp-action="Delete" asp-route-id="@item.CuisineId" class="btn btn-outline-danger">Delete Cuisine</a>
+        }
+    </div>
 }
 
 <div class="gobackbutton">
-<a asp-controller="Recipe" asp-action="Index" class="btn btn-outline-danger">Back To All Recipes</a>
+<a asp-controller="Cuisine" asp-action="Index" class="btn btn-outline-danger">Back To Cuisines</a>
 </div>

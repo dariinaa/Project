@@ -24,112 +24,52 @@
 </head>
 
 <form method="post" asp-action="AddRecipe">
+    @Html.AntiForgeryToken()
     <div class="container">
 
-        <p><label asp-for="RecipeId">RecipeId:</label></p>
-        <input asp-for="RecipeId" class="form-control" />
-
-        <p><label asp-for="RecipeTitle">RecipeTitle:</label></p>
+        <p><label asp-for="RecipeTitle">Recipe Title:</label></p>
         <input asp-for="RecipeTitle" class="form-control" />
 
-        <p><label asp-for="RecipeImage">RecipeVideo:</label></p>
+        <p><label asp-for="RecipeImage">Recipe Image:</label></p>
         <input asp-for="RecipeImage" class="form-control" />
 
-        <p><label asp-for="RecipeInredients">RecipeInredients:</label></p>
+        <p><label asp-for="RecipeInredients">Recipe Ingredients:</label></p>
         <textarea asp-for="RecipeInredients" class="form-control" id="RecipeInredients" name="RecipeInredients" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeDescription">RecipeDescription:</label></p>
+        <p><label asp-for="RecipeDescription">Recipe Description:</label></p>
         <textarea asp-for="RecipeDescription" class="form-control" id="RecipeDescription" name="RecipeDescription" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeIntroduction">RecipeIntroduction:</label></p>
+        <p><label asp-for="RecipeIntroduction">Recipe Introduction:</label></p>
         <textarea asp-for="RecipeIntroduction" class="form-control" id="RecipeIntroduction" name="RecipeIntroduction" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeDirections">RecipeDirections:</label></p>
+        <p><label asp-for="RecipeDirections">Recipe Directions:</label></p>
         <textarea asp-for="RecipeDirections" class="form-control" id="RecipeDirections" name="RecipeDirections" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeCookTime">RecipeCookTime:</label></p>
+        <p><label asp-for="RecipeCookTime">Recipe CookTime (minutes):</label></p>
         <input asp-for="RecipeCookTime" class="form-control" />
 
-        <p><label asp-for="RecipeCalories">RecipeCalories:</label></p>
+        <p><label asp-for="RecipeCalories">Recipe Calories (per 100g):</label></p>
         <input asp-for="RecipeCalories" class="form-control" />
 
-        <p><label asp-for="RecipeServings">RecipeServings:</label></p>
+        <p><label asp-for="RecipeServings">Recipe Servings:</label></p>
         <input asp-for="RecipeServings" class="form-control" />
 
-        <p><label asp-for="RecipeAuthorId">RecipeAuthorId:</label></p>
+        <p><label asp-for="RecipeAuthorId">Recipe Author UserName:</label></p>
         <input asp-for="RecipeAuthorId" class="form-control" />
 
-        <p><label asp-for="RecipeCategoryId">RecipeCategoryId:</label></p>
+        <p><label asp-for="RecipeCategoryId">Recipe Category:</label></p>
         <input asp-for="RecipeCategoryId" class="form-control" />
 
-        <p><label asp-for="CuisineId">CuisineId:</label></p>
+        <p><label asp-for="Cuisine">Cuisine:</label></p>
         <input asp-for="CuisineId" class="form-control" />
 
         <div class="buttons"></div>
+
         <button type="submit" class="btn btn-outline-danger" value="Add Recipe">Add Recipe</button>
 
         <a asp-action="Index" class="btn btn-outline-danger">Go Back</a>
+
         </div>
 
     </div>
 </form>
-
-<!--<form method="post" asp-action="AddRecipe">
-    <div class="container">
-        <div class="col-md-12 col-lg-12">
-            <article class="post vt-post">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
-                        <div class="caption">
-                            <p><label asp-for="RecipeId">RecipeId:</label></p>
-                            <input asp-for="RecipeId" class="form-control" />
-
-                            <p><label asp-for="RecipeTitle">RecipeTitle:</label></p>
-                            <input asp-for="RecipeTitle" class="form-control" />
-
-                            <p><label asp-for="RecipeVideo">RecipeVideo:</label></p>
-                            <input asp-for="RecipeVideo" class="form-control" />
-
-                            <p><label asp-for="RecipeInredients">RecipeInredients:</label></p>
-                            <input asp-for="RecipeInredients" class="form-control" />
-
-                            <p><label asp-for="RecipeDescription">RecipeDescription:</label></p>
-                            <input asp-for="RecipeDescription" class="form-control" />
-
-                            <p><label asp-for="RecipeAuthor">RecipeAuthor:</label></p>
-                            <input asp-for="RecipeAuthor" class="form-control" />
-
-                            <p><label asp-for="RecipeIntroduction">RecipeIntroduction:</label></p>
-                            <input asp-for="RecipeIntroduction" class="form-control" />
-
-                            <p><label asp-for="RecipeDirections">RecipeDirections:</label></p>
-                            <input asp-for="RecipeDirections" class="form-control" />
-
-                            <p><label asp-for="RecipeCookTime">RecipeCookTime:</label></p>
-                            <input asp-for="RecipeCookTime" class="form-control" />
-
-                            <p><label asp-for="RecipeCalories">RecipeCalories:</label></p>
-                            <input asp-for="RecipeCalories" class="form-control" />
-
-                            <p><label asp-for="RecipeServings">RecipeServings:</label></p>
-                            <input asp-for="RecipeServings" class="form-control" />
-
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <div class="col-10 offset-2 row">
-            <div class="col">
-                <input type="submit" class="btn btn-info w-55" value="Add"/>
-            </div>
-            <div class="col">
-                <a asp-action="Index" class="btn btn-danger w-74">Back</a>
-            </div>
-        </div>
-    </div>
-</form>-->
-

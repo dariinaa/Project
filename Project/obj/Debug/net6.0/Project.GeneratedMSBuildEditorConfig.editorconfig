@@ -43,8 +43,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/AddCuisine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxBZGRDdWlzaW5lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/GetRecipesByCuisine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxHZXRSZWNpcGVzQnlDdWlzaW5lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Home/About.cshtml]
@@ -59,20 +71,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/AddRecipeCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcQWRkUmVjaXBlQ2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/GetRecipesByCategory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcR2V0UmVjaXBlc0J5Q2F0ZWdvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcVXBkYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/AddRecipe.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEFkZFJlY2lwZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/GetRecipeReviews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEdldFJlY2lwZVJldmlld3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/Index.cshtml]

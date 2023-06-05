@@ -1,4 +1,9 @@
-﻿
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
 @model Project.Services.ViewModels.RecipeViewModel
 
 <head>
@@ -18,46 +23,54 @@
     </style>
 </head>
 
-<form method="post" asp-action="Update" enctype="multipart/form-data">
+<form method="post" asp-action="Update">
+    @Html.AntiForgeryToken()
     <div class="container">
 
-        <p><label asp-for="RecipeId">RecipeId:</label></p>
-        <input asp-for="RecipeId" class="form-control" />
+        <input type="hidden" name="RecipeId" value="@Model.RecipeId" />
 
-        <p><label asp-for="RecipeTitle">RecipeTitle:</label></p>
+        <p><label asp-for="RecipeTitle">Recipe Title:</label></p>
         <input asp-for="RecipeTitle" class="form-control" />
 
-        <p><label asp-for="RecipeImage">RecipeVideo:</label></p>
+        <p><label asp-for="RecipeImage">Recipe Image:</label></p>
         <input asp-for="RecipeImage" class="form-control" />
 
-        <p><label asp-for="RecipeInredients">RecipeInredients:</label></p>
+        <p><label asp-for="RecipeInredients">Recipe Ingredients:</label></p>
         <textarea asp-for="RecipeInredients" class="form-control" id="RecipeInredients" name="RecipeInredients" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeDescription">RecipeDescription:</label></p>
+        <p><label asp-for="RecipeDescription">Recipe Description:</label></p>
         <textarea asp-for="RecipeDescription" class="form-control" id="RecipeDescription" name="RecipeDescription" rows="4" cols="50"></textarea>
-        
-        <p><label asp-for="User">User:</label></p>
-        <input asp-for="User" class="form-control" />
 
-        <p><label asp-for="RecipeIntroduction">RecipeIntroduction:</label></p>
+        <p><label asp-for="RecipeIntroduction">Recipe Introduction:</label></p>
         <textarea asp-for="RecipeIntroduction" class="form-control" id="RecipeIntroduction" name="RecipeIntroduction" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeDirections">RecipeDirections:</label></p>
+        <p><label asp-for="RecipeDirections">Recipe Directions:</label></p>
         <textarea asp-for="RecipeDirections" class="form-control" id="RecipeDirections" name="RecipeDirections" rows="4" cols="50"></textarea>
 
-        <p><label asp-for="RecipeCookTime">RecipeCookTime:</label></p>
+        <p><label asp-for="RecipeCookTime">Recipe CookTime (minutes):</label></p>
         <input asp-for="RecipeCookTime" class="form-control" />
 
-        <p><label asp-for="RecipeCalories">RecipeCalories:</label></p>
+        <p><label asp-for="RecipeCalories">Recipe Calories (per 100g):</label></p>
         <input asp-for="RecipeCalories" class="form-control" />
 
-        <p><label asp-for="RecipeServings">RecipeServings:</label></p>
+        <p><label asp-for="RecipeServings">Recipe Servings:</label></p>
         <input asp-for="RecipeServings" class="form-control" />
 
-        <div class="buttons"></div>
+        <!--<p><label asp-for="RecipeAuthorId">Recipe Author UserName:</label></p>
+        <input asp-for="RecipeAuthorId" class="form-control" />
+
+        <p><label asp-for="RecipeCategoryId">Recipe Category:</label></p>
+        <input asp-for="RecipeCategoryId" class="form-control" />
+
+        <p><label asp-for="Cuisine">Cuisine:</label></p>
+        <input asp-for="CuisineId" class="form-control" />-->
+
+        <div class="buttons">
+
         <button type="submit" class="btn btn-outline-danger" value="Update Recipe">Update Recipe</button>
 
         <a asp-action="Index" class="btn btn-outline-danger">Go Back</a>
+
         </div>
 
     </div>
