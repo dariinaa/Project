@@ -1,10 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@model Project.Services.ViewModels.RecipeViewModel
+﻿@model Project.Services.ViewModels.RecipeViewModel
 
 <head>
     <style>
@@ -65,6 +59,15 @@
 
     <h4>Servings:</h4>
     <div class="serving">@Model.RecipeServings</div>
+
+    <h4>Recipe Author:</h4>
+    <div class="serving">@Model.RecipeAuthorId</div>
+
+    <h4>Recipe Category:</h4>
+    <div class="serving">@Model.RecipeCategory.RecipeCategoryName</div>
+
+    <h4>Recipe Cuisine:</h4>
+    <div class="serving">@Model.Cuisine.CuisineName</div>
 
     <div class="gobackbutton">
         <a asp-controller="Recipe" asp-action="Index" class="btn btn-outline-danger">Back To All Recipes</a>

@@ -1,9 +1,10 @@
-﻿using Project.Data.DataModels;
+﻿using Microsoft.AspNetCore.Identity;
+using Project.Data.DataModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace Project.Services.ViewModels
 {
-    public class UserViewModel
+    public class UserViewModel : IdentityUser
     {
         public string UserCity { get; set; }
 

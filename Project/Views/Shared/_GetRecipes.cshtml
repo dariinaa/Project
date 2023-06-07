@@ -1,0 +1,67 @@
+﻿@model List<Project.Services.ViewModels.RecipeViewModel>
+
+@foreach (var @item in Model)
+{
+<head>
+    <style>
+        img{
+            height:300px;
+            width:500px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-bottom:30px;
+        }
+        body{
+
+        }
+        .title{
+            font-size: 50px;
+            font-weight:bold;
+        }
+        .buttons{
+            margin-bottom:30px;
+        }
+        .reviewButtons{
+            margin-bottom:30px;
+        }
+    </style>
+</head>
+
+    <div class="title">
+        <p>@item.RecipeTitle</p>
+    </div>
+
+    <div class="image">
+        <img src="@item.RecipeImage"/>
+    </div>
+
+    <div class="description">
+        <p>Describtion: @item.RecipeDescription</p>
+    </div>
+
+    <div class="cooktime">
+        <p>CookTime (minutes): @item.RecipeCookTime</p>
+    </div>
+
+    <div class="buttons">
+
+        <a asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Recipe Details</a>
+
+        @if(User.IsInRole("Admin"))
+        {
+            <a asp-controller="Recipe" asp-action="Update" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Update Recipe</a>
+            <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Delete Recipe</a>
+        }
+
+    </div>
+
+    <div class="reviewButtons">
+
+        <a asp-controller="Review" asp-action="AddReview" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Add Review</a>
+
+        <a asp-controller="Recipe" asp-action="GetRecipeReviews" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Recipe Reviews</a>
+
+    </div>
+
+}

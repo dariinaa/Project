@@ -42,12 +42,12 @@ namespace Project.Services
                     RecipeCookTime = recipe.RecipeCookTime,
                     RecipeCalories = recipe.RecipeCalories,
                     RecipeServings = recipe.RecipeServings,
-                    RecipeAuthorId = recipe.RecipeAuthorId,
+                    RecipeAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).UserName,
                     User = recipe.User,
                     RecipeCategoryId = recipe.RecipeCategoryId,
-                    RecipeCategory = recipe.RecipeCategory,
+                    RecipeCategory = context.RecipeCategory.FirstOrDefault(rc => rc.RecipeCategoryId == recipe.RecipeCategoryId),
                     CuisineId = recipe.CuisineId,
-                    Cuisine = recipe.Cuisine,
+                    Cuisine = context.Cuisine.FirstOrDefault(c => c.CuisineId == recipe.CuisineId),
                     ReviewId = recipe.ReviewId,
                     RecipeReviews = recipe.RecipeReviews,
                 }).SingleOrDefault(recipe => recipe.RecipeId == recipeId);
@@ -60,6 +60,7 @@ namespace Project.Services
             var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == recipe.RecipeAuthorId);
             var category = await context.RecipeCategory.FirstOrDefaultAsync(rc => rc.RecipeCategoryName == recipe.RecipeCategoryId);
             var cuisine = await context.Cuisine.FirstOrDefaultAsync(c => c.CuisineName == recipe.CuisineId);
+            User authorNotIdentity = (User)author;
 
             if (author == null || category == null || cuisine == null)
             {
@@ -81,19 +82,25 @@ namespace Project.Services
                 RecipeCategoryId = category.RecipeCategoryId,
                 CuisineId = cuisine.CuisineId
             };
+
             if (category.RecipeCategoryRecipes == null)
             {
                 category.RecipeCategoryRecipes = new List<Recipe>();
             }
             category.RecipeCategoryRecipes.Add(recipeDb);
-            context.Add(recipeDb);
-            await context.SaveChangesAsync();
 
             if (cuisine.CuisineRecipes == null)
             {
                 cuisine.CuisineRecipes = new List<Recipe>();
             }
             cuisine.CuisineRecipes.Add(recipeDb);
+
+            if (authorNotIdentity.UserRecipes == null)
+            {
+                authorNotIdentity.UserRecipes = new List<Recipe>();
+            }
+            authorNotIdentity.UserRecipes.Add(recipeDb);
+
             context.Add(recipeDb);
             await context.SaveChangesAsync();
         }

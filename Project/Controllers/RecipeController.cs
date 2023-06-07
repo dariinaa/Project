@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Net;
 using Project.Data.DataModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Project.Controllers
 {
@@ -18,6 +19,7 @@ namespace Project.Controllers
 
         //index
         [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             List<RecipeViewModel> recipes = recipeService.GetAll();

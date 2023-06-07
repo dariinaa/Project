@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Data.DataModels;
 using Project.Services;
 using Project.Services.ViewModels;
@@ -14,6 +15,7 @@ namespace Project.Controllers
         }
 
         //index
+        [Authorize]
         public IActionResult Index()
         {
             List<RecipeCategoryViewModel> recipeCategories = recipeCategoryService.GetAll();

@@ -1,24 +1,18 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-@model Project.Services.ViewModels.CuisineViewModel
+﻿@model Project.Services.ViewModels.CuisineViewModel
 
 <head>
     <style>
-        .buttons{
-            margin-top:30px;
-            margin-right:10px;
-        }
         body{
             background: #CA0000;
         }
         form{
             background: white;
-            margin:150px;
-            padding:100px;
+        }
+        .form-control{
+            margin-bottom:40px;
+        }
+        .container{
+            padding:40px;
         }
     </style>
 </head>
@@ -39,7 +33,7 @@
 
         <button type="submit" class="btn btn-outline-danger" value="Update Cuisine">Update Cuisine</button>
 
-        <a asp-action="Index" class="btn btn-outline-danger">Go Back</a>
+        <a asp-action="Index" class="btn btn-outline-danger">Back To Cuisines</a>
 
         </div>
 

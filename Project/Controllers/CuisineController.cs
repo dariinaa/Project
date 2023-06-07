@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project.Services;
 using Project.Services.ViewModels;
 
@@ -13,6 +14,7 @@ namespace Project.Controllers
         }
 
         //index
+        [Authorize]
         public IActionResult Index()
         {
             List<CuisineViewModel> cuisines = cuisineService.GetAll();

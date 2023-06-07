@@ -1,0 +1,42 @@
+﻿
+@model Project.Services.ViewModels.ReviewViewModel
+
+<head>
+    <style>
+        body{
+            background: #CA0000;
+        }
+        form{
+            background: white;
+        }
+        .form-control{
+            margin-bottom:40px;
+        }
+        .container{
+            padding:40px;
+        }
+    </style>
+</head>
+
+<form method="post" asp-action="AddReview">
+    @Html.AntiForgeryToken()
+    <div class="container">
+        
+        <input type="hidden" asp-for="RecipeId" class="form-control" />
+
+        <p><label asp-for="ReviewMessage">Review Message:</label></p>
+        <input asp-for="ReviewMessage" class="form-control" />
+
+        <p><label asp-for="ReviewAuthorId">Review Author UserName:</label></p>
+        <input asp-for="ReviewAuthorId" class="form-control" />
+
+        <div class="buttons">
+
+        <button type="submit" class="btn btn-outline-danger" value="Add Review">Add Review</button>
+
+        <a asp-action="Index" asp-controller="Recipe" class="btn btn-outline-danger">Back To All Recipes</a>
+
+        </div>
+
+    </div>
+</form>

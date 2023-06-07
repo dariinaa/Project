@@ -17,9 +17,33 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            List<User> users = userService.GetAll();
+            List<UserViewModel> users = userService.GetAll();
 
             return this.View(users);
         }
+
+        //delete user
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                _ = userService.DeleteUser(id);
+                return RedirectToAction("Index");
+            }
+            catch (ArgumentException e)
+            {
+                ViewData["Message"] = e.Message;
+
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        //get recipes by user
+        /*public IActionResult GetRecipesByUser(string id)
+        {
+            List<RecipeViewModel> recipeUserRecipes = userService.GetRecipesByUser(id);
+            return this.View(recipeUserRecipes);
+        }*/
     }
 }

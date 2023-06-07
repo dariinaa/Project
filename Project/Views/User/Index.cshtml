@@ -1,14 +1,51 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model List<Project.Data.DataModels.User>
+﻿
+@model List<Project.Services.ViewModels.UserViewModel>
 
 @foreach (var @item in Model)
 {
-    <div class="username">@item.UserName</div>
-    <div class="username">@item.Email</div>
-    <div class="username">@item.PhoneNumber</div>
-    <div class="username">@item.UserCity</div>
+    <head>
+    <style>
+        body{
+            
+        }
+        .title{
+            font-size: 30px;
+            font-weight:bold;
+            border: 1px solid black;
+        }
+        .class1{
+            border: 1px solid black;
+        }
+        .user{
+            margin-bottom:30px;
+        }
+        .deleteUser{
+             margin-top:30px;
+        }
+    </style>
+</head>
+
+<div class="user">
+
+    <div class="title">
+        <p>User Name: @item.UserName</p>
+    </div>
+
+    <div class="title">
+        <p>Email: @item.Email</p>
+    </div>
+
+    <div class="class1">
+        <p>Phone Number: @item.PhoneNumber</p>
+    </div>
+
+    <div class="deleteUser">
+        <a asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete User</a>
+    </div>
+
+    <!--<div class="deleteUser">
+        <a asp-controller="User" asp-action="GetRecipesByUser" asp-route-id="@item.Id" class="btn btn-outline-danger">Get Recipes By User</a>
+    </div>-->
+
+</div>
 }

@@ -13,28 +13,35 @@ namespace Project.Services
             context = post;
         }
 
-        //add review
         public async Task AddReview(ReviewViewModel review, string recipeId)
         {
-            var recipe = await context.Recipe.FirstOrDefaultAsync(u => u.RecipeId == recipeId);
             var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == review.ReviewAuthorId);
             if (author == null)
             {
                 throw new Exception("Invalid author name.");
             }
+
             var reviewDb = new Review
             {
                 ReviewId = Guid.NewGuid().ToString(),
                 ReviewMessage = review.ReviewMessage,
-                ReviewDate = review.ReviewDate,
+                ReviewDate = DateTime.Now,
                 RecipeId = recipeId,
                 ReviewAuthorId = author.Id,
             };
+
+            var recipe = await context.Recipe.FirstOrDefaultAsync(u => u.RecipeId == recipeId);
+            if (recipe == null)
+            {
+                throw new Exception("Invalid recipe.");
+            }
+
             if (recipe.RecipeReviews == null)
             {
                 recipe.RecipeReviews = new List<Review>();
             }
             recipe.RecipeReviews.Add(reviewDb);
+
             context.Add(reviewDb);
             await context.SaveChangesAsync();
         }
