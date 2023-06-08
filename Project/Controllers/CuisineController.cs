@@ -7,7 +7,9 @@ namespace Project.Controllers
 {
     public class CuisineController : Controller
     {
+
         public CuisineService cuisineService { get; set; }
+
         public CuisineController(CuisineService service)
         {
             cuisineService = service;
@@ -17,9 +19,16 @@ namespace Project.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            List<CuisineViewModel> cuisines = cuisineService.GetAll();
-
-            return this.View(cuisines);
+            try
+            {
+                var cuisines = cuisineService.GetAll();
+                return View(cuisines);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisines: {ex.Message}");
+                return View();
+            }
         }
 
         //cuisine category
@@ -49,8 +58,16 @@ namespace Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCuisine([Bind("CuisineId", "CuisineName", "CuisineImage")] CuisineViewModel cuisineVM)
         {
-            await cuisineService.AddCuisine(cuisineVM);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await cuisineService.AddCuisine(cuisineVM);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while adding cuisine: {ex.Message}");
+                return View(cuisineVM);
+            }
         }
 
         //update cuisine

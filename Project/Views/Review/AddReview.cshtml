@@ -22,13 +22,12 @@
     @Html.AntiForgeryToken()
     <div class="container">
         
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <input type="hidden" asp-for="RecipeId" class="form-control" />
 
         <p><label asp-for="ReviewMessage">Review Message:</label></p>
         <input asp-for="ReviewMessage" class="form-control" />
-
-        <p><label asp-for="ReviewAuthorId">Review Author UserName:</label></p>
-        <input asp-for="ReviewAuthorId" class="form-control" />
 
         <div class="buttons">
 

@@ -1,5 +1,7 @@
 ﻿@model List<Project.Services.ViewModels.RecipeCategoryViewModel>
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 @if (User.IsInRole("Admin"))
 {
     <a asp-controller="RecipeCategory" asp-action="AddRecipeCategory" class="btn btn-outline-danger">Add Recipe Category</a>

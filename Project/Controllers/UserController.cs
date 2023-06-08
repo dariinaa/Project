@@ -22,6 +22,13 @@ namespace Project.Controllers
             return this.View(users);
         }
 
+        //delete confirmed
+        [HttpGet]
+        public IActionResult DeleteConfirmed()
+        {
+            return this.View();
+        }
+
         //delete user
         [HttpGet]
         public IActionResult Delete(string id)
@@ -29,7 +36,7 @@ namespace Project.Controllers
             try
             {
                 _ = userService.DeleteUser(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("DeleteConfirmed");
             }
             catch (ArgumentException e)
             {

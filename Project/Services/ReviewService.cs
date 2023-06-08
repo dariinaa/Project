@@ -1,25 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services.ViewModels;
+using System.Security.Claims;
 
 namespace Project.Services
 {
-    public class ReviewService
+    public class ReviewService: IReviewService
     {
         private readonly ApplicationDbContext context;
-        public ReviewService(ApplicationDbContext post)
+        //
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public ReviewService(ApplicationDbContext post, UserManager<IdentityUser> userManager)
         {
             context = post;
+            _userManager = userManager;
         }
 
-        public async Task AddReview(ReviewViewModel review, string recipeId)
+        public async Task AddReview(ReviewViewModel review, string recipeId, ClaimsPrincipal user)
         {
-            var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == review.ReviewAuthorId);
-            if (author == null)
-            {
-                throw new Exception("Invalid author name.");
-            }
+            var userId = _userManager.GetUserId(user);
+            //var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == review.ReviewAuthorId);
+            //if (author == null)
+            //{
+            //    throw new Exception("Invalid author name.");
+            //}
 
             var reviewDb = new Review
             {
@@ -27,7 +35,7 @@ namespace Project.Services
                 ReviewMessage = review.ReviewMessage,
                 ReviewDate = DateTime.Now,
                 RecipeId = recipeId,
-                ReviewAuthorId = author.Id,
+                ReviewAuthorId = userId,
             };
 
             var recipe = await context.Recipe.FirstOrDefaultAsync(u => u.RecipeId == recipeId);

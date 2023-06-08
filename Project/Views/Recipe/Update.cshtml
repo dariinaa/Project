@@ -21,6 +21,8 @@
     @Html.AntiForgeryToken()
     <div class="container">
 
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <input type="hidden" name="RecipeId" value="@Model.RecipeId" />
 
         <p><label asp-for="RecipeTitle">Recipe Title:</label></p>

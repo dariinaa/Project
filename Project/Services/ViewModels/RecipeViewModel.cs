@@ -28,5 +28,6 @@ namespace Project.Services.ViewModels
 
         public string? ReviewId { get; set; }
         public ICollection<Review> RecipeReviews { get; set; }
+        public object HttpContext { get; internal set; }
     }
 }

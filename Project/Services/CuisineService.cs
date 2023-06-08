@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services.ViewModels;
 
 namespace Project.Services
 {
-    public class CuisineService
+    public class CuisineService: ICuisineService
     {
         private readonly ApplicationDbContext context;
         public CuisineService(ApplicationDbContext post)
@@ -16,38 +17,66 @@ namespace Project.Services
         //get all cuisine
         public List<CuisineViewModel> GetAll()
         {
-            return context.Cuisine.Select(cuisine => new CuisineViewModel()
+            try
             {
-                CuisineId = cuisine.CuisineId,
-                CuisineName = cuisine.CuisineName,
-                CuisineImage = cuisine.CuisineImage,
-            }).ToList();
+                return context.Cuisine.Select(cuisine => new CuisineViewModel()
+                {
+                    CuisineId = cuisine.CuisineId,
+                    CuisineName = cuisine.CuisineName,
+                    CuisineImage = cuisine.CuisineImage,
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving Cuisines.", ex);
+            }
         }
 
         //get details cuisine
         public CuisineViewModel GetDetailsById(string cuisineId)
         {
-            CuisineViewModel cuisine = context.Cuisine
-                .Select(cuisine => new CuisineViewModel
+            try
+            {
+                CuisineViewModel cuisine = context.Cuisine
+                    .Select(cuisine => new CuisineViewModel
+                    {
+                        CuisineId = cuisine.CuisineId,
+                        CuisineName = cuisine.CuisineName,
+                        CuisineImage = cuisine.CuisineImage,
+                    }).SingleOrDefault(cuisine => cuisine.CuisineId == cuisineId);
+
+                if (cuisine == null)
                 {
-                    CuisineId = cuisine.CuisineId,
-                    CuisineName = cuisine.CuisineName,
-                    CuisineImage = cuisine.CuisineImage,
-                }).SingleOrDefault(cuisine => cuisine.CuisineId == cuisineId);
-            return cuisine;
+                    throw new Exception("Cuisine not found.");
+                }
+
+                return cuisine;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving cuisine details.", ex);
+            }
         }
 
         //add cuisine
         public async Task AddCuisine(CuisineViewModel cuisine)
         {
-            var cuisineDb = new Cuisine
-            {
-                CuisineId = Guid.NewGuid().ToString(),
-                CuisineName = cuisine.CuisineName,
-                CuisineImage = cuisine.CuisineImage,
-            };
-            context.Add(cuisineDb);
-            await context.SaveChangesAsync();
+            //try
+            //{
+                var cuisineDb = new Cuisine
+                {
+                    CuisineId = Guid.NewGuid().ToString(),
+                    CuisineName = cuisine.CuisineName,
+                    CuisineImage = cuisine.CuisineImage,
+                };
+
+                context.Add(cuisineDb);
+                await context.SaveChangesAsync();
+            //}
+           // catch (Exception ex)
+          //  {
+            //    throw new Exception("An error occurred while adding the cuisine.", ex);
+           // }
         }
 
         //delete cuisine

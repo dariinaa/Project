@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services.ViewModels;
 
 namespace Project.Services
 {
-    public class UserService
+    public class UserService: IUserService
     {
         private readonly ApplicationDbContext context;
         public UserService(ApplicationDbContext post)
@@ -18,6 +19,7 @@ namespace Project.Services
         {
             return context.Users.Select(user => new UserViewModel()
             {
+                Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -33,7 +35,7 @@ namespace Project.Services
             }
             if (id != null)
             {
-                var userDb = context.Set<User>().FirstOrDefault(x => x.Id == id);
+                var userDb = context.Users.FirstOrDefault(x => x.Id == id);
                 context.Users.Remove(userDb);
                 await context.SaveChangesAsync();
             }

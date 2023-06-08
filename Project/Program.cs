@@ -20,6 +20,7 @@ builder.Services.AddTransient<UserService, UserService>();
 builder.Services.AddTransient<ReviewService, ReviewService>();
 builder.Services.AddTransient<RecipeCategoryService, RecipeCategoryService>();
 builder.Services.AddTransient<CuisineService, CuisineService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

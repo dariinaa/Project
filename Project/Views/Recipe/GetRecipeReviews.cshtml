@@ -1,5 +1,7 @@
 ﻿@model List<Project.Services.ViewModels.ReviewViewModel>
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 @foreach (var @item in Model)
 {
     <head>
@@ -23,6 +25,7 @@
         }
     </style>
 </head>
+
 <div class="review">
 
     <div class="title">

@@ -49,13 +49,25 @@ namespace Project.Controllers
             return View();
         }
 
-        //add recipe
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeAuthorId", "RecipeCategoryId", "CuisineId")] RecipeViewModel recipeVM)
         {
-            await recipeService.AddRecipe(recipeVM);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await recipeService.AddRecipe(recipeVM, User);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException ex)
+            {
+                // Invalid input, rethrow the exception
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                throw new Exception("An error occurred while adding the recipe.", ex);
+            }       
         }
 
         //update recipe

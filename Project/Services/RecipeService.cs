@@ -1,16 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services.ViewModels;
+using System.Security.Claims;
 
 namespace Project.Services
 {
-    public class RecipeService
+    public class RecipeService: IRecipeService
     {
         private readonly ApplicationDbContext context;
-        public RecipeService(ApplicationDbContext post)
+        //
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public RecipeService(ApplicationDbContext post, UserManager<IdentityUser> userManager)
         {
             context = post;
+            _userManager = userManager;
         }
 
         //get all recipe
@@ -55,17 +62,28 @@ namespace Project.Services
         }
 
         //add recipe
-        public async Task AddRecipe(RecipeViewModel recipe)
+        public async Task AddRecipe(RecipeViewModel recipe, ClaimsPrincipal user)
         {
-            var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == recipe.RecipeAuthorId);
-            var category = await context.RecipeCategory.FirstOrDefaultAsync(rc => rc.RecipeCategoryName == recipe.RecipeCategoryId);
-            var cuisine = await context.Cuisine.FirstOrDefaultAsync(c => c.CuisineName == recipe.CuisineId);
-            User authorNotIdentity = (User)author;
+            var userId = _userManager.GetUserId(user);
 
-            if (author == null || category == null || cuisine == null)
+            // Validate user, category, and cuisine
+            if (string.IsNullOrEmpty(userId))
             {
-                throw new Exception("Invalid author, category, or cuisine name.");
+                throw new ArgumentException("Invalid user ID.");
             }
+
+            var category = await context.RecipeCategory.FirstOrDefaultAsync(rc => rc.RecipeCategoryName == recipe.RecipeCategoryId);
+            if (category == null)
+            {
+                throw new ArgumentException("Invalid recipe category.");
+            }
+
+            var cuisine = await context.Cuisine.FirstOrDefaultAsync(c => c.CuisineName == recipe.CuisineId);
+            if (cuisine == null)
+            {
+                throw new ArgumentException("Invalid cuisine.");
+            }
+
             var recipeDb = new Recipe
             {
                 RecipeId = Guid.NewGuid().ToString(),
@@ -78,29 +96,19 @@ namespace Project.Services
                 RecipeCookTime = recipe.RecipeCookTime,
                 RecipeCalories = recipe.RecipeCalories,
                 RecipeServings = recipe.RecipeServings,
-                RecipeAuthorId = author.Id,
+                RecipeAuthorId = userId,
                 RecipeCategoryId = category.RecipeCategoryId,
                 CuisineId = cuisine.CuisineId
             };
 
-            if (category.RecipeCategoryRecipes == null)
-            {
-                category.RecipeCategoryRecipes = new List<Recipe>();
-            }
+            // Add recipe to category and cuisine
+            category.RecipeCategoryRecipes ??= new List<Recipe>();
             category.RecipeCategoryRecipes.Add(recipeDb);
 
-            if (cuisine.CuisineRecipes == null)
-            {
-                cuisine.CuisineRecipes = new List<Recipe>();
-            }
+            cuisine.CuisineRecipes ??= new List<Recipe>();
             cuisine.CuisineRecipes.Add(recipeDb);
 
-            if (authorNotIdentity.UserRecipes == null)
-            {
-                authorNotIdentity.UserRecipes = new List<Recipe>();
-            }
-            authorNotIdentity.UserRecipes.Add(recipeDb);
-
+            // Save changes to the database
             context.Add(recipeDb);
             await context.SaveChangesAsync();
         }

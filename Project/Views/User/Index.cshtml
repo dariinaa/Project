@@ -1,6 +1,8 @@
 ﻿
 @model List<Project.Services.ViewModels.UserViewModel>
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 @foreach (var @item in Model)
 {
     <head>
@@ -38,6 +40,7 @@
     <div class="class1">
         <p>Phone Number: @item.PhoneNumber</p>
     </div>
+
 
     <div class="deleteUser">
         <a asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete User</a>

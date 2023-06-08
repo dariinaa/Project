@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services.ViewModels;
 
 namespace Project.Services
 {
-    public class RecipeCategoryService
+    public class RecipeCategoryService: IRecipeCategoryService
     {
         private readonly ApplicationDbContext context;
         public RecipeCategoryService(ApplicationDbContext post)

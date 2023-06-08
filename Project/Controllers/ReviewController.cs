@@ -36,7 +36,7 @@ namespace Project.Controllers
         {
             try
             {
-            await reviewService.AddReview(reviewVM, id);
+            await reviewService.AddReview(reviewVM, id, User);
             return this.RedirectToAction("Index");
             }
             catch (Exception ex)
