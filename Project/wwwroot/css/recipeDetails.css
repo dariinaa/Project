@@ -1,0 +1,25 @@
+body {
+    background: #CA0000;
+}
+
+.container {
+    background: white;
+    padding: 50px;
+}
+
+.title {
+    font-size: 100px;
+    font-weight: bold;
+}
+
+h4 {
+    margin-top: 50px;
+}
+
+h2 {
+    margin-top: 50px;
+}
+
+.gobackbutton {
+    margin-top: 50px;
+}

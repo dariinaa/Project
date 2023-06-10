@@ -2,29 +2,12 @@
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+<head>
+    <link rel="stylesheet" href="/css/reviewsAndUsers.css">
+</head>
+
 @foreach (var @item in Model)
 {
-    <head>
-    <style>
-        body{
-            
-        }
-        .title{
-            font-size: 30px;
-            font-weight:bold;
-            border: 1px solid black;
-        }
-        .class1{
-            border: 1px solid black;
-        }
-        .review{
-            margin-bottom:30px;
-        }
-        .deleteReview{
-             margin-top:30px;
-        }
-    </style>
-</head>
 
 <div class="review">
 
@@ -48,6 +31,7 @@
         }
 
 </div>
+
 }
 
 <div class="gobackbutton">

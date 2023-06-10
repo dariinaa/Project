@@ -1,0 +1,54 @@
+﻿@model Project.Services.ViewModels.RecipeViewModel
+
+@inject Project.Services.CuisineService cuisineService
+
+@inject Project.Services.RecipeCategoryService recipeCategoryService
+
+<head>
+    <link rel="stylesheet" href="/css/style1.css">
+</head>
+
+<form asp-controller="RecipeAPI" asp-action="CallRecipeAPI">    
+
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <p><label for="numberOfRecipes">Number Of Recipes:</label></p>
+        <input type="number" name="numberOfRecipes" class="form-control" />
+
+        <p><label asp-for="RecipeCategoryId">Recipe Category:</label></p>
+        <select asp-for="RecipeCategoryId" class="form-control" />
+
+        <option value="">Select a Recipe Category</option>
+        @foreach (var recipeCategoryName in recipeCategoryService.GetAllRecipeCategoryNames())
+        {
+            <option value="@recipeCategoryName">@recipeCategoryName</option>
+        }
+
+        </select>
+
+        <p><label asp-for="Cuisine">Cuisine:</label></p>
+        <select asp-for="CuisineId" class="form-control" />
+
+        <option value="">Select a Cuisine</option>
+        @foreach (var cuisineName in cuisineService.GetAllCuisineNames())
+        {
+            <option value="@cuisineName">@cuisineName</option>
+        }
+
+        </select>
+
+        <div class="buttons">
+
+        <button type="submit" class="btn btn-outline-danger" value="Add Recipe">Add Recipes</button>
+
+        <a asp-action="Index" class="btn btn-outline-danger">Back To All Recipes</a>
+
+        </div>
+
+    </div>
+
+</form>

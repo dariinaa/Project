@@ -1,24 +1,13 @@
 ﻿@model Project.Services.ViewModels.CuisineViewModel
 
 <head>
-    <style>
-        body{
-            background: #CA0000;
-        }
-        form{
-            background: white;
-        }
-        .form-control{
-            margin-bottom:40px;
-        }
-        .container{
-            padding:40px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/style1.css">
 </head>
 
 <form method="post" asp-action="Update">
+
     @Html.AntiForgeryToken()
+
     <div class="container">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -40,4 +29,5 @@
         </div>
 
     </div>
+
 </form>

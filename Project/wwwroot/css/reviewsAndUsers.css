@@ -1,0 +1,25 @@
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.class1 {
+    border: 1px solid black;
+}
+
+.review {
+    margin-bottom: 30px;
+}
+
+.deleteReview {
+    margin-top: 30px;
+}
+
+.user {
+    margin-bottom: 30px;
+}
+
+.deleteUser {
+    margin-top: 30px;
+}

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using System.Net;
 using Project.Data.DataModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Project.Controllers.RecipeAPI;
 
 namespace Project.Controllers
 {
@@ -14,7 +17,19 @@ namespace Project.Controllers
         public RecipeService recipeService { get; set; }
         public RecipeController(RecipeService service)
         {
-            recipeService = service;
+            recipeService = service;     
+        }
+
+        private string GetFullErrorMessage(Exception ex)
+        {
+            string errorMessage = ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                errorMessage += " Inner Exception: " + ex.InnerException.Message;
+            }
+
+            return errorMessage;
         }
 
         //index
@@ -22,24 +37,44 @@ namespace Project.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            List<RecipeViewModel> recipes = recipeService.GetAll();
+            try
+            {
+                List<RecipeViewModel> recipes = recipeService.GetAll();
+                return View(recipes);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while retrieving recipes: {GetFullErrorMessage(ex)}");
+                return View();
+            }
+        }
 
-            return this.View(recipes);
+        //deletion complete
+        public IActionResult DeletionComplete()
+        {
+            return this.View();
+        }
+
+        //add recipe using API
+        public IActionResult AddRecipeAPI()
+        {
+            return this.View();
         }
 
         //details recipe
         [HttpGet]
         public IActionResult Details(string id)
         {
-            RecipeViewModel recipe = recipeService.GetDetailsById(id);
-
-            bool isCourseNull = recipe == null;
-            if (isCourseNull)
+            try
             {
-                return this.RedirectToAction("Index");
+                RecipeViewModel recipe = recipeService.GetDetailsById(id);
+                return View(recipe);
             }
-
-            return this.View(recipe);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while retrieving recipe details: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
 
         //add recipe
@@ -58,24 +93,27 @@ namespace Project.Controllers
                 await recipeService.AddRecipe(recipeVM, User);
                 return RedirectToAction(nameof(Index));
             }
-            catch (ArgumentException ex)
-            {
-                // Invalid input, rethrow the exception
-                throw;
-            }
             catch (Exception ex)
             {
-                // Log the exception or handle it as needed
-                throw new Exception("An error occurred while adding the recipe.", ex);
-            }       
+                ModelState.AddModelError("", $"An error occurred while adding the recipe: {GetFullErrorMessage(ex)}");
+                return View(recipeVM);
+            }
         }
 
         //update recipe
         [HttpGet]
         public IActionResult Update(string id)
         {
-            RecipeViewModel recipe = this.recipeService.UpdateById(id);
-            return this.View(recipe);
+            try
+            {
+                RecipeViewModel recipe = recipeService.UpdateById(id);
+                return View(recipe);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while retrieving recipe for update: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
 
         //update recipe
@@ -90,7 +128,7 @@ namespace Project.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Failed to update the recipe: {ex.Message}");
+                ModelState.AddModelError("", $"Failed to update the recipe: {GetFullErrorMessage(ex)}");
                 return View(recipe);
             }
         }
@@ -102,12 +140,11 @@ namespace Project.Controllers
             try
             {
                 recipeService.DeleteRecipe(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("DeletionComplete");
             }
-            catch (ArgumentException e)
+            catch (Exception ex)
             {
-                ViewData["Message"] = e.Message;
-
+                ModelState.AddModelError("", $"An error occurred while deleting the recipe: {GetFullErrorMessage(ex)}");
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -116,8 +153,16 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult GetRecipeReviews(string id)
         {
-            List<ReviewViewModel> recipereviews = recipeService.GetRecipeReviews(id);
-            return this.View(recipereviews);
+            try
+            {
+                List<ReviewViewModel> recipereviews = recipeService.GetRecipeReviews(id);
+                return View(recipereviews);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while retrieving recipe reviews: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
     }
 }

@@ -15,8 +15,21 @@ namespace Project.Controllers
             cuisineService = service;
         }
 
+        private string GetFullErrorMessage(Exception ex)
+        {
+            string errorMessage = ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                errorMessage += " Inner Exception: " + ex.InnerException.Message;
+            }
+
+            return errorMessage;
+        }
+
         //index
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
             try
@@ -26,24 +39,31 @@ namespace Project.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisines: {ex.Message}");
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisines: {GetFullErrorMessage(ex)}");
                 return View();
             }
+        }
+
+        //deletion complete
+        public IActionResult DeletionComplete()
+        {
+            return this.View();
         }
 
         //cuisine category
         [HttpGet]
         public IActionResult Details(string id)
         {
-            CuisineViewModel cuisine = cuisineService.GetDetailsById(id);
-
-            bool isCourseNull = cuisine == null;
-            if (isCourseNull)
+            try
             {
-                return this.RedirectToAction("Index");
+                CuisineViewModel cuisine = cuisineService.GetDetailsById(id);
+                return View(cuisine);
             }
-
-            return this.View(cuisine);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisine details: {GetFullErrorMessage(ex)}");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         //add cuisine
@@ -65,7 +85,7 @@ namespace Project.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, $"An error occurred while adding cuisine: {ex.Message}");
+                ModelState.AddModelError(string.Empty, $"An error occurred while adding cuisine: {GetFullErrorMessage(ex)}");
                 return View(cuisineVM);
             }
         }
@@ -74,8 +94,16 @@ namespace Project.Controllers
         [HttpGet]
         public IActionResult Update(string id)
         {
-            CuisineViewModel cuisine = this.cuisineService.GetDetailsById(id);
-            return this.View(cuisine);
+            try
+            {
+                CuisineViewModel cuisine = cuisineService.GetDetailsById(id);
+                return View(cuisine);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisine details: {GetFullErrorMessage(ex)}");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         //update cuisine
@@ -90,7 +118,7 @@ namespace Project.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Failed to update the recipe: {ex.Message}");
+                ModelState.AddModelError("", $"Failed to update the cuisine: {GetFullErrorMessage(ex)}");
                 return View(cuisine);
             }
         }
@@ -102,22 +130,29 @@ namespace Project.Controllers
             try
             {
                 cuisineService.DeleteCuisine(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("DeletionComplete");
             }
-            catch (ArgumentException e)
+            catch (ArgumentException ex)
             {
-                ViewData["Message"] = e.Message;
-
+                ModelState.AddModelError(string.Empty, $"An error occurred while deleting the cuisine: {GetFullErrorMessage(ex)}");
                 return RedirectToAction(nameof(Index));
             }
         }
 
         //get recipes by cuisine
+        [HttpGet]
         public IActionResult GetRecipesByCuisine(string id)
         {
-            List<RecipeViewModel> cuisineRecipes = cuisineService.GetRecipesByCuisine(id);
-
-            return this.View(cuisineRecipes);
+            try
+            {
+                List<RecipeViewModel> cuisineRecipes = cuisineService.GetRecipesByCuisine(id);
+                return View(cuisineRecipes);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving cuisine recipes: {GetFullErrorMessage(ex)}");
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }

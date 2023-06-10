@@ -1,0 +1,21 @@
+img {
+    height: 300px;
+    width: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.buttons {
+    margin-bottom: 30px;
+}
+
+.reviewButtons {
+    margin-bottom: 30px;
+}

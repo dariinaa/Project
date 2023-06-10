@@ -1,31 +1,13 @@
-﻿
-@model List<Project.Services.ViewModels.UserViewModel>
+﻿@model List<Project.Services.ViewModels.UserViewModel>
 
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+<head>
+<link rel="stylesheet" href="/css/reviewsAndUsers.css">
+</head>
+
 @foreach (var @item in Model)
 {
-    <head>
-    <style>
-        body{
-            
-        }
-        .title{
-            font-size: 30px;
-            font-weight:bold;
-            border: 1px solid black;
-        }
-        .class1{
-            border: 1px solid black;
-        }
-        .user{
-            margin-bottom:30px;
-        }
-        .deleteUser{
-             margin-top:30px;
-        }
-    </style>
-</head>
 
 <div class="user">
 
@@ -41,14 +23,10 @@
         <p>Phone Number: @item.PhoneNumber</p>
     </div>
 
-
     <div class="deleteUser">
         <a asp-controller="User" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete User</a>
     </div>
 
-    <!--<div class="deleteUser">
-        <a asp-controller="User" asp-action="GetRecipesByUser" asp-route-id="@item.Id" class="btn btn-outline-danger">Get Recipes By User</a>
-    </div>-->
-
 </div>
+
 }

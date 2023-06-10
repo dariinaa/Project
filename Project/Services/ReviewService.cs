@@ -22,12 +22,17 @@ namespace Project.Services
 
         public async Task AddReview(ReviewViewModel review, string recipeId, ClaimsPrincipal user)
         {
+            if (review == null)
+            {
+                throw new ArgumentNullException(nameof(review), "Review is invalid.");
+            }
+
             var userId = _userManager.GetUserId(user);
-            //var author = await context.Users.FirstOrDefaultAsync(u => u.UserName == review.ReviewAuthorId);
-            //if (author == null)
-            //{
-            //    throw new Exception("Invalid author name.");
-            //}
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("Invalid user ID.");
+            }
 
             var reviewDb = new Review
             {
@@ -59,11 +64,17 @@ namespace Project.Services
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
             {
-                Console.WriteLine("Eror!");
+                throw new ArgumentException("Review ID is invalid.", nameof(id));
             }
             if (id != null)
             {
                 var reviewDb = context.Review.FirstOrDefault(x => x.ReviewId == id);
+
+                if (reviewDb == null)
+                {
+                    throw new ArgumentNullException(nameof(reviewDb), "Review not found.");
+                }
+
                 context.Review.Remove(reviewDb);
                 await context.SaveChangesAsync();
             }

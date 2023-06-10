@@ -12,12 +12,26 @@ namespace Project.Controllers
             reviewService = service;
         }
 
-        public IActionResult Index()
+        private string GetFullErrorMessage(Exception ex)
+        {
+            string errorMessage = ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                errorMessage += " Inner Exception: " + ex.InnerException.Message;
+            }
+
+            return errorMessage;
+        }
+
+        //addition complete
+        public IActionResult AdditionComplete()
         {
             return this.View();
         }
 
-        public IActionResult DeleteConfirmed()
+        //deletion complete
+        public IActionResult DeletionComplete()
         {
             return this.View();
         }
@@ -36,12 +50,13 @@ namespace Project.Controllers
         {
             try
             {
-            await reviewService.AddReview(reviewVM, id, User);
-            return this.RedirectToAction("Index");
+                await reviewService.AddReview(reviewVM, id, User);
+                return this.RedirectToAction("AdditionComplete");
             }
             catch (Exception ex)
             {
-             return View("Error");
+                ModelState.AddModelError("", $"An error occurred while adding review: {GetFullErrorMessage(ex)}");
+                return View();
             }
         }
 
@@ -52,13 +67,12 @@ namespace Project.Controllers
             try
             {
                 reviewService.DeleteReview(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("DeletionComplete");
             }
-            catch (ArgumentException e)
+            catch (ArgumentException ex)
             {
-                ViewData["Message"] = e.Message;
-
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", $"An error occurred while deleting review: {GetFullErrorMessage(ex)}");
+                return RedirectToAction(nameof(Index), "Recipe");
             }
         }
 

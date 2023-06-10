@@ -7,30 +7,12 @@
     <a asp-controller="RecipeCategory" asp-action="AddRecipeCategory" class="btn btn-outline-danger">Add Recipe Category</a>
 }
 
+<head>
+    <link rel="stylesheet" href="/css/style2.css">
+</head>
+
 @foreach (var @item in Model)
 {
-<head>
-    <style>
-        img{
-            height:300px;
-            width:500px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin-bottom:30px;
-        }
-        body{
-
-        }
-        .title{
-            font-size: 50px;
-            font-weight:bold;
-        }
-        .buttons{
-            margin-bottom:30px;
-        }
-    </style>
-</head>
 
     <div class="title">
         <p>@item.RecipeCategoryName</p>
@@ -41,7 +23,7 @@
     </div>
 
     <div class="buttons">
-
+        
         <a asp-controller="RecipeCategory" asp-action="GetRecipesByCategory" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Recipes In Category</a>
 
         @if(User.IsInRole("Admin"))
@@ -49,7 +31,9 @@
             <a asp-controller="RecipeCategory" asp-action="Update" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Update Recipe Category</a>
             <a asp-controller="RecipeCategory" asp-action="Delete" asp-route-id="@item.RecipeCategoryId" class="btn btn-outline-danger">Delete Recipe Category</a>
         }
+
     </div>
+
 }
 
 <div class="gobackbutton">
@@ -57,30 +41,31 @@
 </div>
 
 @section MyFooter
-    {
-        <footer class="bg-light text-center text-lg-start">
-  <div class="container p-4">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-        <h5 class="text-uppercase"><a style="text-decoration: none; color:#CA0000" asp-area="" asp-controller="Home" asp-action="Index">Chef'sKiss</a></h5>
-        <p>
-          At Chef'sKiss, we believe that cooking is an art form that brings people together. 
-          Whether you are a seasoned chef or just starting your culinary journey, we have something 
-          for everyone. Explore our extensive collection of recipes spanning various cuisines, dietary 
-          preferences, and skill levels.
-        </p>
-      </div>
-      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-        <h5 class="text-uppercase"><a style="text-decoration: none; color:#CA0000" asp-area="" asp-controller="Home" asp-action="Index">Chef'sKiss</a></h5>
-        <p>
-          Join our vibrant community of food lovers, where you can share your own recipes, 
-          engage in discussions, and connect with fellow cooking enthusiasts. Together, 
-          let's celebrate the joy of cooking and savor every culinary adventure.
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="text-center p-3" style="background-color: #CA0000;">
-  </div>
-</footer>
-    }
+{
+    <footer class="bg-light text-center text-lg-start">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase"><a style="text-decoration: none; color:#CA0000" asp-area="" asp-controller="Home" asp-action="Index">Chef'sKiss</a></h5>
+                    <p>
+                        At Chef'sKiss, we believe that cooking is an art form that brings people together. 
+                        Whether you are a seasoned chef or just starting your culinary journey, we have something 
+                        for everyone. Explore our extensive collection of recipes spanning various cuisines, dietary 
+                        preferences, and skill levels.
+                    </p>
+
+                </div>
+                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                    <h5 class="text-uppercase"><a style="text-decoration: none; color:#CA0000" asp-area="" asp-controller="Home" asp-action="Index">Chef'sKiss</a></h5>
+                    <p>
+                        Join our vibrant community of food lovers, where you can share your own recipes, 
+                        engage in discussions, and connect with fellow cooking enthusiasts. Together, 
+                        let's celebrate the joy of cooking and savor every culinary adventure.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center p-3" style="background-color: #CA0000;">
+        </div>
+    </footer>
+}

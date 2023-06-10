@@ -6,6 +6,5 @@ namespace Project.Interfaces
     {
         List<UserViewModel> GetAll();
         Task DeleteUser(string id);
-        // List<RecipeViewModel> GetRecipesByUser(string userId);
     }
 }

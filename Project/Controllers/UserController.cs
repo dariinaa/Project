@@ -13,13 +13,33 @@ namespace Project.Controllers
             userService = service;
         }
 
+        private string GetFullErrorMessage(Exception ex)
+        {
+            string errorMessage = ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                errorMessage += " Inner Exception: " + ex.InnerException.Message;
+            }
+
+            return errorMessage;
+        }
+
         //index
         [HttpGet]
         public IActionResult Index()
         {
-            List<UserViewModel> users = userService.GetAll();
+            try
+            {
+                List<UserViewModel> users = userService.GetAll();
 
-            return this.View(users);
+                return this.View(users);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while retrieving users: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
 
         //delete confirmed
@@ -38,19 +58,11 @@ namespace Project.Controllers
                 _ = userService.DeleteUser(id);
                 return RedirectToAction("DeleteConfirmed");
             }
-            catch (ArgumentException e)
+            catch (ArgumentException ex)
             {
-                ViewData["Message"] = e.Message;
-
+                ModelState.AddModelError("", $"An error occurred while deleting the user: {GetFullErrorMessage(ex)}");
                 return RedirectToAction(nameof(Index));
             }
         }
-
-        //get recipes by user
-        /*public IActionResult GetRecipesByUser(string id)
-        {
-            List<RecipeViewModel> recipeUserRecipes = userService.GetRecipesByUser(id);
-            return this.View(recipeUserRecipes);
-        }*/
     }
 }

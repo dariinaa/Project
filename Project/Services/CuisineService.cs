@@ -17,66 +17,55 @@ namespace Project.Services
         //get all cuisine
         public List<CuisineViewModel> GetAll()
         {
-            try
+            return context.Cuisine.Select(cuisine => new CuisineViewModel()
             {
-                return context.Cuisine.Select(cuisine => new CuisineViewModel()
-                {
-                    CuisineId = cuisine.CuisineId,
-                    CuisineName = cuisine.CuisineName,
-                    CuisineImage = cuisine.CuisineImage,
-                }).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while retrieving Cuisines.", ex);
-            }
+                CuisineId = cuisine.CuisineId,
+                CuisineName = cuisine.CuisineName,
+                CuisineImage = cuisine.CuisineImage,
+            }).ToList();
         }
 
         //get details cuisine
         public CuisineViewModel GetDetailsById(string cuisineId)
         {
-            try
+            if (string.IsNullOrEmpty(cuisineId) || string.IsNullOrWhiteSpace(cuisineId))
             {
-                CuisineViewModel cuisine = context.Cuisine
-                    .Select(cuisine => new CuisineViewModel
+                throw new ArgumentException("Cuisine ID is invalid.", nameof(cuisineId));
+            }
+
+            CuisineViewModel cuisine = context.Cuisine
+                .Select(cuisine => new CuisineViewModel
                     {
                         CuisineId = cuisine.CuisineId,
                         CuisineName = cuisine.CuisineName,
                         CuisineImage = cuisine.CuisineImage,
                     }).SingleOrDefault(cuisine => cuisine.CuisineId == cuisineId);
 
-                if (cuisine == null)
-                {
-                    throw new Exception("Cuisine not found.");
-                }
-
-                return cuisine;
-            }
-            catch (Exception ex)
+            if (cuisine == null)
             {
-                throw new Exception("An error occurred while retrieving cuisine details.", ex);
+                throw new ArgumentNullException(nameof(cuisine), "Cuisine not found.");
             }
+
+            return cuisine;
         }
 
         //add cuisine
         public async Task AddCuisine(CuisineViewModel cuisine)
         {
-            //try
-            //{
-                var cuisineDb = new Cuisine
-                {
-                    CuisineId = Guid.NewGuid().ToString(),
-                    CuisineName = cuisine.CuisineName,
-                    CuisineImage = cuisine.CuisineImage,
-                };
+            if (cuisine == null)
+            {
+                throw new ArgumentNullException(nameof(cuisine), "Cuisine is invalid.");
+            }
 
-                context.Add(cuisineDb);
-                await context.SaveChangesAsync();
-            //}
-           // catch (Exception ex)
-          //  {
-            //    throw new Exception("An error occurred while adding the cuisine.", ex);
-           // }
+            var cuisineDb = new Cuisine
+            {
+                CuisineId = Guid.NewGuid().ToString(),
+                CuisineName = cuisine.CuisineName,
+                CuisineImage = cuisine.CuisineImage,
+            };
+
+            context.Add(cuisineDb);
+            await context.SaveChangesAsync();
         }
 
         //delete cuisine
@@ -84,25 +73,36 @@ namespace Project.Services
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
             {
-                Console.WriteLine("Eror!");
+                throw new ArgumentException("Cuisine ID is invalid.", nameof(id));
             }
-            if (id != null)
+
+            var cuisineDb = context.Cuisine.FirstOrDefault(x => x.CuisineId == id);
+
+            if (cuisineDb == null)
             {
-                var cuisineDb = context.Cuisine.FirstOrDefault(x => x.CuisineId == id);
-                context.Cuisine.Remove(cuisineDb);
-                await context.SaveChangesAsync();
+                throw new ArgumentNullException(nameof(cuisineDb), "Cuisine not found.");
             }
+
+            context.Cuisine.Remove(cuisineDb);
+            await context.SaveChangesAsync();
+
         }
 
         //update cuisine
         public async Task UpdateCuisine(CuisineViewModel cuisine)
         {
+            if (cuisine == null)
+            {
+                throw new ArgumentNullException(nameof(cuisine), "Cuisine is invalid.");
+            }
+
             var cuisineDb = await context.Cuisine.FirstOrDefaultAsync(r => r.CuisineId == cuisine.CuisineId);
 
             if (cuisineDb == null)
             {
                 throw new Exception("Cuisine not found.");
             }
+
             cuisineDb.CuisineId = cuisine.CuisineId;
             cuisineDb.CuisineName = cuisine.CuisineName;
             cuisineDb.CuisineImage = cuisine.CuisineImage;
@@ -113,12 +113,18 @@ namespace Project.Services
         //get recipes by cuisine
         public List<RecipeViewModel> GetRecipesByCuisine(string cuisineId)
         {
+            if (string.IsNullOrEmpty(cuisineId) || string.IsNullOrWhiteSpace(cuisineId))
+            {
+                throw new ArgumentException("Cuisine ID is invalid.", nameof(cuisineId));
+            }
+
             var cuisine = context.Cuisine
                 .Include(c => c.CuisineRecipes)
                 .FirstOrDefault(c => c.CuisineId == cuisineId);
+
             if (cuisine == null)
             {
-                throw new Exception("Category not found.");
+                throw new Exception("Cuisine not found.");
             }
 
             var recipes = cuisine.CuisineRecipes.Select(recipe => new RecipeViewModel
@@ -142,7 +148,20 @@ namespace Project.Services
                 ReviewId = recipe.ReviewId,
                 RecipeReviews = recipe.RecipeReviews,
             }).ToList();
+
+            if (recipes == null)
+            {
+                throw new Exception("Recipes not found.");
+            }
+
             return recipes;
         }
+
+        //get all cuisine names
+        public IEnumerable<string> GetAllCuisineNames()
+        {
+            return context.Cuisine.Select(c => c.CuisineName);
+        }
+
     }
 }

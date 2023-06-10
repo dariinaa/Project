@@ -1,0 +1,19 @@
+body {
+    background: #CA0000;
+}
+
+form {
+    background: white;
+}
+
+.form-control {
+    margin-bottom: 40px;
+}
+
+.container {
+    padding: 40px;
+}
+
+.addRecipeAPI {
+    margin-bottom: 40px;
+}

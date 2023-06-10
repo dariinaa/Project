@@ -14,7 +14,7 @@ namespace Project.Services
             context = post;
         }
 
-        //get all category
+        //get all recipe category
         public List<RecipeCategoryViewModel> GetAll()
         {
             return context.RecipeCategory.Select(recipeCategory => new RecipeCategoryViewModel()
@@ -28,6 +28,11 @@ namespace Project.Services
         //get details recipe category
         public RecipeCategoryViewModel GetDetailsById(string recipeCategoryId)
         {
+            if (string.IsNullOrEmpty(recipeCategoryId))
+            {
+                throw new ArgumentException("Invalid recipe category ID.");
+            }
+
             RecipeCategoryViewModel category = context.RecipeCategory
                 .Select(category => new RecipeCategoryViewModel
                 {
@@ -35,20 +40,32 @@ namespace Project.Services
                     RecipeCategoryName = category.RecipeCategoryName,
                     RecipeCategoryImage = category.RecipeCategoryImage,
                 }).SingleOrDefault(category => category.RecipeCategoryId == recipeCategoryId);
+
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category), "Recipe category not found.");
+            }
+
             return category;
         }
 
         //add recipe category
         public async Task AddRecipeCategory(RecipeCategoryViewModel category)
         {
+            if (category == null)
+            {
+                throw new ArgumentNullException(nameof(category), "Recipe category is invalid.");
+            }
+
             var categoryDb = new RecipeCategory
             {
                 RecipeCategoryId = Guid.NewGuid().ToString(),
                 RecipeCategoryName = category.RecipeCategoryName,
-                RecipeCategoryImage = category.RecipeCategoryImage,               
+                RecipeCategoryImage = category.RecipeCategoryImage,
             };
+
             context.Add(categoryDb);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(); ;
         }
 
         //delete recipe category
@@ -56,28 +73,38 @@ namespace Project.Services
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
             {
-                Console.WriteLine("Eror!");
+                throw new ArgumentException("Recipe category ID is invalid.", nameof(id));
             }
-            if (id != null)
+
+            var recipeCategoryDb = context.RecipeCategory.FirstOrDefault(x => x.RecipeCategoryId == id);
+
+            if (recipeCategoryDb == null)
             {
-                var recipeCategoryDb = context.RecipeCategory.FirstOrDefault(x => x.RecipeCategoryId == id);
-                context.RecipeCategory.Remove(recipeCategoryDb);
-                await context.SaveChangesAsync();
+                throw new ArgumentNullException(nameof(recipeCategoryDb), "Recipe category not found.");
             }
+
+            context.RecipeCategory.Remove(recipeCategoryDb);
+            await context.SaveChangesAsync();
         }
 
         //update recipe category
         public async Task UpdateRecipeCategory(RecipeCategoryViewModel recipeCategory)
         {
+            if (recipeCategory == null)
+            {
+                throw new ArgumentNullException(nameof(recipeCategory), "Recipe category is invalid.");
+            }
+
             var recipeCategoryDb = await context.RecipeCategory.FirstOrDefaultAsync(r => r.RecipeCategoryId == recipeCategory.RecipeCategoryId);
 
             if (recipeCategoryDb == null)
             {
-                throw new Exception("Recipe Category not found.");
+                throw new ArgumentNullException(nameof(recipeCategoryDb), "Recipe category not found.");
             }
-            recipeCategoryDb.RecipeCategoryId = recipeCategory.RecipeCategoryId;
+
             recipeCategoryDb.RecipeCategoryName = recipeCategory.RecipeCategoryName;
-            recipeCategoryDb.RecipeCategoryImage = recipeCategory.RecipeCategoryImage;        
+            recipeCategoryDb.RecipeCategoryImage = recipeCategory.RecipeCategoryImage;
+
             context.RecipeCategory.Update(recipeCategoryDb);
             await context.SaveChangesAsync();
         }
@@ -85,12 +112,18 @@ namespace Project.Services
         //get recipes by category
         public List<RecipeViewModel> GetRecipesByCategory(string categoryId)
         {
+            if (string.IsNullOrEmpty(categoryId) || string.IsNullOrWhiteSpace(categoryId))
+            {
+                throw new ArgumentException("Recipe category ID is invalid.", nameof(categoryId));
+            }
+
             var category = context.RecipeCategory
                 .Include(c => c.RecipeCategoryRecipes)
                 .FirstOrDefault(c => c.RecipeCategoryId == categoryId);
+
             if (category == null)
             {
-                throw new Exception("Category not found.");
+                throw new ArgumentNullException(nameof(category), "Recipe category not found.");
             }
 
             var recipes = category.RecipeCategoryRecipes.Select(recipe => new RecipeViewModel
@@ -114,7 +147,19 @@ namespace Project.Services
                 ReviewId = recipe.ReviewId,
                 RecipeReviews = recipe.RecipeReviews,
             }).ToList();
+
+            if (recipes == null)
+            {
+                throw new Exception("Recipes not found.");
+            }
+
             return recipes;
+        }
+
+        //get all recipe category names
+        public IEnumerable<string> GetAllRecipeCategoryNames()
+        {
+            return context.RecipeCategory.Select(c => c.RecipeCategoryName);
         }
     }
 }

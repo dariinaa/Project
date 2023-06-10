@@ -14,28 +14,55 @@ namespace Project.Controllers
             recipeCategoryService = service;
         }
 
+        private string GetFullErrorMessage(Exception ex)
+        {
+            string errorMessage = ex.Message;
+
+            if (ex.InnerException != null)
+            {
+                errorMessage += " Inner Exception: " + ex.InnerException.Message;
+            }
+
+            return errorMessage;
+        }
+
         //index
         [Authorize]
+        [HttpGet]
         public IActionResult Index()
         {
-            List<RecipeCategoryViewModel> recipeCategories = recipeCategoryService.GetAll();
+            try
+            {
+                List<RecipeCategoryViewModel> recipeCategories = recipeCategoryService.GetAll();
+                return View(recipeCategories);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving recipe categories: {GetFullErrorMessage(ex)}");
+                return View();
+            }
+        }
 
-            return this.View(recipeCategories);
+        //deletion complete
+        public IActionResult DeletionComplete()
+        {
+            return this.View();
         }
 
         //details recipe category
         [HttpGet]
         public IActionResult Details(string id)
         {
-            RecipeCategoryViewModel recipeCategory = recipeCategoryService.GetDetailsById(id);
-
-            bool isCourseNull = recipeCategory == null;
-            if (isCourseNull)
+            try
             {
-                return this.RedirectToAction("Index");
+                RecipeCategoryViewModel recipeCategory = recipeCategoryService.GetDetailsById(id);
+                return View(recipeCategory);
             }
-
-            return this.View(recipeCategory);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving recipe category details: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
 
         //add recipe category
@@ -50,16 +77,32 @@ namespace Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddRecipeCategory([Bind("RecipeCategoryId", "RecipeCategoryName", "RecipeCategoryImage")] RecipeCategoryViewModel recipeCategoryVM)
         {
-            await recipeCategoryService.AddRecipeCategory(recipeCategoryVM);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await recipeCategoryService.AddRecipeCategory(recipeCategoryVM);
+                return RedirectToAction(nameof(Index));               
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while adding the recipe category: {GetFullErrorMessage(ex)}");
+                return View(recipeCategoryVM);
+            }
         }
 
         //update recipe category
         [HttpGet]
         public IActionResult Update(string id)
         {
-            RecipeCategoryViewModel recipeCategory = this.recipeCategoryService.GetDetailsById(id);
-            return this.View(recipeCategory);
+            try
+            {
+                RecipeCategoryViewModel recipeCategory = recipeCategoryService.GetDetailsById(id);
+                return View(recipeCategory);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving recipe category details: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
 
         //update recipe category
@@ -74,7 +117,7 @@ namespace Project.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Failed to update the recipe: {ex.Message}");
+                ModelState.AddModelError(string.Empty, $"An error occurred while updating the recipe category: {GetFullErrorMessage(ex)}");
                 return View(recipeCategory);
             }
         }
@@ -86,21 +129,29 @@ namespace Project.Controllers
             try
             {
                 recipeCategoryService.DeleteRecipeCategory(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("DeletionComplete");
             }
-            catch (ArgumentException e)
+            catch (Exception ex)
             {
-                ViewData["Message"] = e.Message;
-
+                ModelState.AddModelError(string.Empty, $"An error occurred while deleting the recipe category: {GetFullErrorMessage(ex)}");
                 return RedirectToAction(nameof(Index));
             }
         }
 
         //get recipes by category
+        [HttpGet]
         public IActionResult GetRecipesByCategory(string id)
         {
-            List<RecipeViewModel> recipeCategoryRecipes = recipeCategoryService.GetRecipesByCategory(id);
-            return this.View(recipeCategoryRecipes);
+            try
+            {
+                List<RecipeViewModel> recipeCategoryRecipes = recipeCategoryService.GetRecipesByCategory(id);
+                return View(recipeCategoryRecipes);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"An error occurred while retrieving recipes by category: {GetFullErrorMessage(ex)}");
+                return View();
+            }
         }
     }
 }

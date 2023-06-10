@@ -11,7 +11,7 @@ namespace Project.Services
     public class RecipeService: IRecipeService
     {
         private readonly ApplicationDbContext context;
-        //
+        
         private readonly UserManager<IdentityUser> _userManager;
 
         public RecipeService(ApplicationDbContext post, UserManager<IdentityUser> userManager)
@@ -36,6 +36,11 @@ namespace Project.Services
         //get details recipe
         public RecipeViewModel GetDetailsById(string recipeId)
         {
+            if (string.IsNullOrEmpty(recipeId))
+            {
+                throw new ArgumentException("Invalid recipe ID.");
+            }
+
             RecipeViewModel recipe = context.Recipe
                 .Select(recipe => new RecipeViewModel
                 {                   
@@ -58,15 +63,25 @@ namespace Project.Services
                     ReviewId = recipe.ReviewId,
                     RecipeReviews = recipe.RecipeReviews,
                 }).SingleOrDefault(recipe => recipe.RecipeId == recipeId);
+
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(nameof(recipe), "Recipe not found.");
+            }
+
             return recipe;
         }
 
         //add recipe
         public async Task AddRecipe(RecipeViewModel recipe, ClaimsPrincipal user)
         {
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(nameof(recipe), "Recipe is invalid.");
+            }
+
             var userId = _userManager.GetUserId(user);
 
-            // Validate user, category, and cuisine
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentException("Invalid user ID.");
@@ -101,14 +116,12 @@ namespace Project.Services
                 CuisineId = cuisine.CuisineId
             };
 
-            // Add recipe to category and cuisine
             category.RecipeCategoryRecipes ??= new List<Recipe>();
             category.RecipeCategoryRecipes.Add(recipeDb);
 
             cuisine.CuisineRecipes ??= new List<Recipe>();
             cuisine.CuisineRecipes.Add(recipeDb);
 
-            // Save changes to the database
             context.Add(recipeDb);
             await context.SaveChangesAsync();
         }
@@ -118,11 +131,18 @@ namespace Project.Services
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(id))
             {
-                Console.WriteLine("Eror!");
+                throw new ArgumentException("Recipe ID is invalid.", nameof(id));
             }
+
             if (id != null)
             {
                 var recipeDb = context.Recipe.FirstOrDefault(x => x.RecipeId == id);
+
+                if (recipeDb == null)
+                {
+                    throw new ArgumentNullException(nameof(recipeDb), "Recipe not found.");
+                }
+
                 context.Recipe.Remove(recipeDb);
                 await context.SaveChangesAsync();
             }
@@ -131,6 +151,11 @@ namespace Project.Services
         //update by Id
         public RecipeViewModel UpdateById(string recipeId)
         {
+            if (string.IsNullOrEmpty(recipeId))
+            {
+                throw new ArgumentException("Invalid recipe ID.");
+            }
+
             RecipeViewModel recipe = context.Recipe
                 .Select(recipe => new RecipeViewModel
                 {
@@ -153,18 +178,30 @@ namespace Project.Services
                     ReviewId = recipe.ReviewId,
                     RecipeReviews = recipe.RecipeReviews,
                 }).SingleOrDefault(recipe => recipe.RecipeId == recipeId);
+
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(nameof(recipe), "Recipe not found.");
+            }
+
             return recipe;
         }
 
         //update recipe
         public async Task UpdateRecipe(RecipeViewModel recipe)
         {
+            if (recipe == null)
+            {
+                throw new ArgumentNullException(nameof(recipe), "Recipe is invalid.");
+            }
+
             var recipeDb = await context.Recipe.FirstOrDefaultAsync(r => r.RecipeId == recipe.RecipeId);
 
             if (recipeDb == null)
             {
                 throw new Exception("Recipe not found.");
             }
+
             recipeDb.RecipeId = recipe.RecipeId;
             recipeDb.RecipeTitle = recipe.RecipeTitle;
             recipeDb.RecipeImage = recipe.RecipeImage;
@@ -175,9 +212,6 @@ namespace Project.Services
             recipeDb.RecipeCookTime = recipe.RecipeCookTime;
             recipeDb.RecipeCalories = recipe.RecipeCalories;
             recipeDb.RecipeServings = recipe.RecipeServings;
-            //recipeDb.RecipeAuthorId = recipe.RecipeAuthorId;
-            //recipeDb.RecipeCategoryId = recipe.RecipeCategoryId;
-            //recipeDb.CuisineId = recipe.CuisineId;
             context.Recipe.Update(recipeDb);
             await context.SaveChangesAsync();
         }
@@ -185,6 +219,11 @@ namespace Project.Services
         //get reviews of a specific recipe
         public List<ReviewViewModel> GetRecipeReviews(string recipeId)
         {
+            if (string.IsNullOrEmpty(recipeId) || string.IsNullOrWhiteSpace(recipeId))
+            {
+                throw new ArgumentException("Recipe ID is invalid.", nameof(recipeId));
+            }
+
             var recipe = context.Recipe
                 .Include(r => r.RecipeReviews)
                 .FirstOrDefault(r => r.RecipeId == recipeId);
@@ -202,37 +241,13 @@ namespace Project.Services
                 RecipeId = recipe.RecipeId,
                 ReviewAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.ReviewAuthorId).UserName,
             }).ToList();
+
+            if (reviews == null)
+            {
+                throw new Exception("Reviews not found.");
+            }
+
             return reviews;
         }
-
-        /*public RecipeViewModel GetDetailsById(string recipeId)
-        {
-            RecipeViewModel recipe = context.Recipe
-                .Where(r => r.RecipeId == recipeId)
-                .Join(context.User, recipe => recipe.RecipeAuthorId, user => user.Id, (recipe, user) => new { recipe, user })
-                .Join(context.RecipeCategory, ru => ru.recipe.RecipeCategoryId, category => category.RecipeCategoryId, (ru, category) => new { ru.recipe, ru.user, category })
-                .Join(context.Cuisine, ruc => ruc.recipe.CuisineId, cuisine => cuisine.CuisineId, (ruc, cuisine) => new { ruc.recipe, ruc.user, ruc.category, cuisine })
-                .Select(result => new RecipeViewModel
-                {
-                    RecipeId = result.recipe.RecipeId,
-                    RecipeTitle = result.recipe.RecipeTitle,
-                    RecipeImage = result.recipe.RecipeImage,
-                    RecipeInredients = result.recipe.RecipeInredients,
-                    RecipeDescription = result.recipe.RecipeDescription,
-                    RecipeIntroduction = result.recipe.RecipeIntroduction,
-                    RecipeDirections = result.recipe.RecipeDirections,
-                    RecipeCookTime = result.recipe.RecipeCookTime,
-                    RecipeCalories = result.recipe.RecipeCalories,
-                    RecipeServings = result.recipe.RecipeServings,
-                    RecipeAuthorId = result.user.UserName, // Changed property
-                    RecipeCategoryId = result.category.RecipeCategoryName, // Changed property
-                    CuisineId = result.cuisine.CuisineName, // Changed property
-                    ReviewId = result.recipe.ReviewId,
-                    RecipeReviews = result.recipe.RecipeReviews
-                })
-                .SingleOrDefault();
-
-            return recipe;
-        }*/
     }
 }

@@ -1,34 +1,15 @@
 ﻿@model Project.Services.ViewModels.RecipeViewModel
 
 <head>
+    <link rel="stylesheet" href="/css/recipeDetails.css">
     <style>
-        .image{
-            background: url(@Model.RecipeImage);
-            height:600px;
-            width:1000px;
+        .image {
+            background: url(@Model.RecipeImage); 
+            height: 600px;
+            width: 1000px;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-        body{
-            background: #CA0000;
-        }
-        .container{
-            background:white;
-            padding: 50px;
-        }
-        .title{
-            font-size: 100px;
-            font-weight:bold;
-        }
-        h4{
-            margin-top:50px;
-        }
-        h2{
-            margin-top:50px;
-        }
-        .gobackbutton{
-            margin-top:50px;
         }
     </style>
 </head>
@@ -45,13 +26,13 @@
     <div class="ingredients" style="white-space: pre-line">@Model.RecipeInredients</div>
 
     <h2>Describtion:</h2>
-    <div class="description" style="white-space: pre-line">@Model.RecipeDescription</div>
+    <div class="description" style="white-space: pre-line">@Html.Raw(@Model.RecipeDescription)</div>
 
     <h2>Introduction:</h2>
-    <div class="introduction" style="white-space: pre-line">@Model.RecipeIntroduction</div>
+    <div class="introduction" style="white-space: pre-line">@Html.Raw(@Model.RecipeIntroduction)</div>
 
     <h2>Directions:</h2>
-    <div class="directions" style="white-space: pre-line">@Model.RecipeDirections</div>
+    <div class="directions" style="white-space: pre-line">@Html.Raw(@Model.RecipeDirections)</div>
 
     <h4>Cook Time In Minutes:</h4>
     <div class="cooktime">@Model.RecipeCookTime</div>

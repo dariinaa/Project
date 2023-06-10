@@ -11,7 +11,7 @@ build_property.RootNamespace = Project
 build_property.ProjectDir = D:\uni\semester_2\NET\FinalProject\Project\Project\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
 build_property.MSBuildProjectDirectory = D:\uni\semester_2\NET\FinalProject\Project\Project
 build_property._RazorSourceGeneratorDebug = 
 
@@ -47,6 +47,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxBZGRDdWlzaW5lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/DeletionComplete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxEZWxldGlvbkNvbXBsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Cuisine/GetRecipesByCuisine.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3Vpc2luZVxHZXRSZWNpcGVzQnlDdWlzaW5lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -75,6 +79,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcQWRkUmVjaXBlQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/DeletionComplete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcRGVsZXRpb25Db21wbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/RecipeCategory/GetRecipesByCategory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlQ2F0ZWdvcnlcR2V0UmVjaXBlc0J5Q2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -89,6 +97,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/AddRecipe.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEFkZFJlY2lwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/AddRecipeAPI.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXEFkZFJlY2lwZUFQSS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/DeletionComplete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXERlbGV0aW9uQ29tcGxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Recipe/Details.cshtml]
@@ -107,16 +123,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjaXBlXFVwZGF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Review/AdditionComplete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XEFkZGl0aW9uQ29tcGxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Review/AddReview.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XEFkZFJldmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Review/DeleteConfirmed.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XERlbGV0ZUNvbmZpcm1lZC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Review/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XEluZGV4LmNzaHRtbA==
+[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Review/DeletionComplete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmV2aWV3XERlbGV0aW9uQ29tcGxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/Shared/Error.cshtml]
@@ -137,10 +153,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/User/DeleteConfirmed.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxEZWxldGVDb25maXJtZWQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/uni/semester_2/NET/FinalProject/Project/Project/Views/User/GetRecipesByUser.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxHZXRSZWNpcGVzQnlVc2VyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/uni/semester_2/NET/FinalProject/Project/Project/Views/User/Index.cshtml]
