@@ -1,8 +1,8 @@
 ﻿@model Project.Services.ViewModels.RecipeViewModel
 
-@inject Project.Services.CuisineService cuisineService
+@inject Project.Interfaces.ICuisineService cuisineService
 
-@inject Project.Services.RecipeCategoryService recipeCategoryService
+@inject Project.Interfaces.IRecipeCategoryService recipeCategoryService
 
 <head>
     <link rel="stylesheet" href="/css/style1.css">
@@ -16,9 +16,12 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="addRecipeAPI">
-        <a asp-action="AddRecipeAPI" class="btn btn-outline-danger">Add Recipes Using API Instead</a>
-        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="addRecipeAPI">
+                <a asp-action="AddRecipeAPI" class="btn btn-outline-danger">Add Recipes Using API Instead</a>
+            </div>
+        }
 
         <p><label asp-for="RecipeTitle">Recipe Title:</label></p>
         <input asp-for="RecipeTitle" class="form-control" />
@@ -47,8 +50,8 @@
         <p><label asp-for="RecipeServings">Recipe Servings:</label></p>
         <input asp-for="RecipeServings" class="form-control" />
 
-        <p><label asp-for="RecipeCategoryId">Recipe Category:</label></p>
-        <select asp-for="RecipeCategoryId" class="form-control" />
+        <p><label asp-for="RecipeCategoryName">Recipe Category:</label></p>
+        <select asp-for="RecipeCategoryName" class="form-control" />
 
         <option value="">Select a Recipe Category</option>
         @foreach (var recipeCategoryName in recipeCategoryService.GetAllRecipeCategoryNames())
@@ -58,8 +61,8 @@
 
         </select>
 
-        <p><label asp-for="Cuisine">Cuisine:</label></p>
-        <select asp-for="CuisineId" class="form-control" />
+        <p><label asp-for="CuisineName">Cuisine:</label></p>
+        <select asp-for="CuisineName" class="form-control" />
 
         <option value="">Select a Cuisine</option>
         @foreach (var cuisineName in cuisineService.GetAllCuisineNames())

@@ -27,7 +27,7 @@
 
         <a asp-controller="Recipe" asp-action="Details" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Recipe Details</a>
 
-        @if(User.IsInRole("Admin"))
+        @if(User.IsInRole("Admin")|| (User.IsInRole("Chef")&&User.Identity.Name == @item.RecipeAuthorName))
         {
             <a asp-controller="Recipe" asp-action="Update" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Update Recipe</a>
             <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@item.RecipeId" class="btn btn-outline-danger">Delete Recipe</a>

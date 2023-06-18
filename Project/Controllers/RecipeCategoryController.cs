@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services;
 using Project.Services.ViewModels;
 
@@ -8,8 +9,8 @@ namespace Project.Controllers
 {
     public class RecipeCategoryController : Controller
     {
-        public RecipeCategoryService recipeCategoryService { get; set; }
-        public RecipeCategoryController(RecipeCategoryService service)
+        public IRecipeCategoryService recipeCategoryService { get; set; }
+        public RecipeCategoryController(IRecipeCategoryService service)
         {
             recipeCategoryService = service;
         }
@@ -75,18 +76,22 @@ namespace Project.Controllers
         //add recipe category
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddRecipeCategory([Bind("RecipeCategoryId", "RecipeCategoryName", "RecipeCategoryImage")] RecipeCategoryViewModel recipeCategoryVM)
+        public async Task<IActionResult> AddRecipeCategory([Bind("RecipeCategoryName", "RecipeCategoryImage")] RecipeCategoryViewModel recipeCategoryVM)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await recipeCategoryService.AddRecipeCategory(recipeCategoryVM);
-                return RedirectToAction(nameof(Index));               
+                try
+                {
+                    await recipeCategoryService.AddRecipeCategory(recipeCategoryVM);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"An error occurred while adding the recipe category: {GetFullErrorMessage(ex)}");
+                    return View(recipeCategoryVM);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, $"An error occurred while adding the recipe category: {GetFullErrorMessage(ex)}");
-                return View(recipeCategoryVM);
-            }
+            return View(recipeCategoryVM);
         }
 
         //update recipe category
@@ -110,16 +115,20 @@ namespace Project.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Update(RecipeCategoryViewModel recipeCategory)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await recipeCategoryService.UpdateRecipeCategory(recipeCategory);
-                return RedirectToAction("Index");
+                try
+                {
+                    await recipeCategoryService.UpdateRecipeCategory(recipeCategory);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"An error occurred while updating the recipe category: {GetFullErrorMessage(ex)}");
+                    return View(recipeCategory);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, $"An error occurred while updating the recipe category: {GetFullErrorMessage(ex)}");
-                return View(recipeCategory);
-            }
+            return View(recipeCategory);
         }
 
         //delete recipe category

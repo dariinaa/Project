@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Project.Controllers.RecipeAPI;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services;
 using Project.Services.ViewModels;
 using System.Net.Http.Headers;
@@ -15,11 +16,11 @@ namespace Project.Controllers
     public class RecipeAPIController : Controller
     {
         private readonly ApplicationDbContext context;
-        private readonly RecipeService recipeService;
+        private readonly IRecipeService recipeService;
         private readonly HttpClient httpClient;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public RecipeAPIController(ApplicationDbContext dbContext, RecipeService service, UserManager<IdentityUser> userManager)
+        public RecipeAPIController(ApplicationDbContext dbContext, IRecipeService service, UserManager<IdentityUser> userManager)
         {
             context = dbContext;
             recipeService = service;

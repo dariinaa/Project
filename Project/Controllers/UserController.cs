@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services;
 using Project.Services.ViewModels;
 
@@ -7,10 +9,13 @@ namespace Project.Controllers
 {
     public class UserController:Controller
     {
-        public UserService userService { get; set; }
-        public UserController(UserService service)
+        public IUserService userService { get; set; }
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public UserController(IUserService service, UserManager<IdentityUser> userManager)
         {
             userService = service;
+            _userManager = userManager;
         }
 
         private string GetFullErrorMessage(Exception ex)
@@ -63,6 +68,57 @@ namespace Project.Controllers
                 ModelState.AddModelError("", $"An error occurred while deleting the user: {GetFullErrorMessage(ex)}");
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        //make admin
+        [HttpPost]
+        public IActionResult MakeAdmin(string userId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user != null)
+            {
+                userService.ChangeUserRole(userId, "Admin");
+                return RedirectToAction("Index");
+            }
+            return NotFound();
+        }
+
+        //make user
+        [HttpPost]
+        public IActionResult MakeUser(string userId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user != null)
+            {
+                userService.ChangeUserRole(userId, "User");
+                return RedirectToAction("Index");
+            }
+            return NotFound();
+        }
+
+        //make chef
+        [HttpPost]
+        public IActionResult MakeChef(string userId)
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
+            var user = _userManager.FindByIdAsync(userId).Result;
+            if (user != null)
+            {
+                userService.ChangeUserRole(userId, "Chef");
+                return RedirectToAction("Index");
+            }
+            return NotFound();
         }
     }
 }

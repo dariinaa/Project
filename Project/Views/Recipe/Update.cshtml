@@ -1,5 +1,9 @@
 ﻿@model Project.Services.ViewModels.RecipeViewModel
 
+@inject Project.Interfaces.ICuisineService cuisineService
+
+@inject Project.Interfaces.IRecipeCategoryService recipeCategoryService
+
 <head>
     <link rel="stylesheet" href="/css/style1.css">
 </head>
@@ -40,6 +44,28 @@
 
         <p><label asp-for="RecipeServings">Recipe Servings:</label></p>
         <input asp-for="RecipeServings" class="form-control" />
+
+        <p><label asp-for="RecipeCategoryName">Recipe Category:</label></p>
+        <select asp-for="RecipeCategoryName" class="form-control" />
+
+        <option value="">@Model.RecipeCategoryName</option>
+        @foreach (var recipeCategoryName in recipeCategoryService.GetAllRecipeCategoryNames())
+        {
+            <option value="@recipeCategoryName">@recipeCategoryName</option>
+        }
+
+        </select>
+
+        <p><label asp-for="CuisineName">Cuisine:</label></p>
+        <select asp-for="CuisineName" class="form-control" />
+
+        <option value="">@Model.CuisineName</option>
+        @foreach (var cuisineName in cuisineService.GetAllCuisineNames())
+        {
+            <option value="@cuisineName">@cuisineName</option>
+        }
+
+        </select>
 
         <div class="buttons">
 

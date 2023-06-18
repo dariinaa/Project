@@ -6,5 +6,7 @@ namespace Project.Interfaces
     {
         List<UserViewModel> GetAll();
         Task DeleteUser(string id);
+        void ChangeUserRole(string userId, string newRole);
+        string GetUserRole(string userId);
     }
 }

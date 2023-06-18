@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Project.Interfaces;
 using Project.Services;
 using Project.Services.ViewModels;
 
@@ -8,9 +9,9 @@ namespace Project.Controllers
     public class CuisineController : Controller
     {
 
-        public CuisineService cuisineService { get; set; }
+        public ICuisineService cuisineService { get; set; }
 
-        public CuisineController(CuisineService service)
+        public CuisineController(ICuisineService service)
         {
             cuisineService = service;
         }
@@ -76,18 +77,22 @@ namespace Project.Controllers
         //add cuisine
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCuisine([Bind("CuisineId", "CuisineName", "CuisineImage")] CuisineViewModel cuisineVM)
+        public async Task<IActionResult> AddCuisine([Bind("CuisineName", "CuisineImage")] CuisineViewModel cuisineVM)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await cuisineService.AddCuisine(cuisineVM);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await cuisineService.AddCuisine(cuisineVM);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"An error occurred while adding cuisine: {GetFullErrorMessage(ex)}");
+                    return View(cuisineVM);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(string.Empty, $"An error occurred while adding cuisine: {GetFullErrorMessage(ex)}");
-                return View(cuisineVM);
-            }
+            return View(cuisineVM);
         }
 
         //update cuisine
@@ -111,16 +116,20 @@ namespace Project.Controllers
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Update(CuisineViewModel cuisine)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await cuisineService.UpdateCuisine(cuisine);
-                return RedirectToAction("Index");
+                try
+                {
+                    await cuisineService.UpdateCuisine(cuisine);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Failed to update the cuisine: {GetFullErrorMessage(ex)}");
+                    return View(cuisine);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Failed to update the cuisine: {GetFullErrorMessage(ex)}");
-                return View(cuisine);
-            }
+            return View(cuisine);
         }
 
         //delete cuisine

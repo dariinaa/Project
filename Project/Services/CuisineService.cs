@@ -147,6 +147,7 @@ namespace Project.Services
                 Cuisine = recipe.Cuisine,
                 ReviewId = recipe.ReviewId,
                 RecipeReviews = recipe.RecipeReviews,
+                RecipeAuthorName = context.Users.FirstOrDefault(x => x.Id == recipe.RecipeAuthorId).UserName,
             }).ToList();
 
             if (recipes == null)

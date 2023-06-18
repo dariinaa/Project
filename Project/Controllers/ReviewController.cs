@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project.Interfaces;
 using Project.Services;
 using Project.Services.ViewModels;
 
@@ -6,8 +7,8 @@ namespace Project.Controllers
 {
     public class ReviewController : Controller
     {
-        public ReviewService reviewService { get; set; }
-        public ReviewController(ReviewService service)
+        public IReviewService reviewService { get; set; }
+        public ReviewController(IReviewService service)
         {
             reviewService = service;
         }
@@ -46,18 +47,22 @@ namespace Project.Controllers
         //add review
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview([Bind("ReviewId", "ReviewMessage", "ReviewDate", "RecipeId", "ReviewAuthorId")] ReviewViewModel reviewVM, string id)
+        public async Task<IActionResult> AddReview([Bind("ReviewMessage")] ReviewViewModel reviewVM, string id)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await reviewService.AddReview(reviewVM, id, User);
-                return this.RedirectToAction("AdditionComplete");
+                try
+                {
+                    await reviewService.AddReview(reviewVM, id, User);
+                    return this.RedirectToAction("AdditionComplete");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred while adding review: {GetFullErrorMessage(ex)}");
+                    return View();
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred while adding review: {GetFullErrorMessage(ex)}");
-                return View();
-            }
+            return View();
         }
 
         //delete review

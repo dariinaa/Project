@@ -30,6 +30,7 @@ namespace Project.Services
                 RecipeImage = recipe.RecipeImage,
                 RecipeDescription = recipe.RecipeDescription,
                 RecipeCookTime = recipe.RecipeCookTime,
+                RecipeAuthorName = context.Users.FirstOrDefault(x => x.Id == recipe.RecipeAuthorId).UserName,
             }).ToList();
         }
 
@@ -54,12 +55,17 @@ namespace Project.Services
                     RecipeCookTime = recipe.RecipeCookTime,
                     RecipeCalories = recipe.RecipeCalories,
                     RecipeServings = recipe.RecipeServings,
-                    RecipeAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).UserName,
+
+                    RecipeAuthorName = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).UserName,
+                    RecipeAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).Id,
                     User = recipe.User,
+
                     RecipeCategoryId = recipe.RecipeCategoryId,
                     RecipeCategory = context.RecipeCategory.FirstOrDefault(rc => rc.RecipeCategoryId == recipe.RecipeCategoryId),
+                    
                     CuisineId = recipe.CuisineId,
                     Cuisine = context.Cuisine.FirstOrDefault(c => c.CuisineId == recipe.CuisineId),
+                    
                     ReviewId = recipe.ReviewId,
                     RecipeReviews = recipe.RecipeReviews,
                 }).SingleOrDefault(recipe => recipe.RecipeId == recipeId);
@@ -87,13 +93,13 @@ namespace Project.Services
                 throw new ArgumentException("Invalid user ID.");
             }
 
-            var category = await context.RecipeCategory.FirstOrDefaultAsync(rc => rc.RecipeCategoryName == recipe.RecipeCategoryId);
+            var category = await context.RecipeCategory.FirstOrDefaultAsync(rc => rc.RecipeCategoryName == recipe.RecipeCategoryName);
             if (category == null)
             {
                 throw new ArgumentException("Invalid recipe category.");
             }
 
-            var cuisine = await context.Cuisine.FirstOrDefaultAsync(c => c.CuisineName == recipe.CuisineId);
+            var cuisine = await context.Cuisine.FirstOrDefaultAsync(c => c.CuisineName == recipe.CuisineName);
             if (cuisine == null)
             {
                 throw new ArgumentException("Invalid cuisine.");
@@ -169,12 +175,19 @@ namespace Project.Services
                     RecipeCookTime = recipe.RecipeCookTime,
                     RecipeCalories = recipe.RecipeCalories,
                     RecipeServings = recipe.RecipeServings,
-                    RecipeAuthorId = recipe.RecipeAuthorId,
+
+                    RecipeAuthorName = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).UserName,
+                    RecipeAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.RecipeAuthorId).Id,
                     User = recipe.User,
+
+                    RecipeCategoryName = context.RecipeCategory.FirstOrDefault(rc => rc.RecipeCategoryId == recipe.RecipeCategoryId).RecipeCategoryName,
                     RecipeCategoryId = recipe.RecipeCategoryId,
-                    RecipeCategory = recipe.RecipeCategory,
+                    RecipeCategory = context.RecipeCategory.FirstOrDefault(rc => rc.RecipeCategoryId == recipe.RecipeCategoryId),
+
+                    CuisineName = context.Cuisine.FirstOrDefault(c => c.CuisineId == recipe.CuisineId).CuisineName,
                     CuisineId = recipe.CuisineId,
-                    Cuisine = recipe.Cuisine,
+                    Cuisine = context.Cuisine.FirstOrDefault(c => c.CuisineId == recipe.CuisineId),
+                    
                     ReviewId = recipe.ReviewId,
                     RecipeReviews = recipe.RecipeReviews,
                 }).SingleOrDefault(recipe => recipe.RecipeId == recipeId);
@@ -212,6 +225,14 @@ namespace Project.Services
             recipeDb.RecipeCookTime = recipe.RecipeCookTime;
             recipeDb.RecipeCalories = recipe.RecipeCalories;
             recipeDb.RecipeServings = recipe.RecipeServings;
+
+            recipeDb.RecipeCategory = await context.RecipeCategory.FirstOrDefaultAsync(x => x.RecipeCategoryName == recipe.RecipeCategoryName);
+            recipeDb.Cuisine = await context.Cuisine.FirstOrDefaultAsync(x => x.CuisineName == recipe.CuisineName);
+
+            //recipeDb.RecipeCategoryId = context.RecipeCategory.Where(x=>x.RecipeCategoryName == recipe.RecipeCategoryName).FirstOrDefault().RecipeCategoryId;
+            
+            //recipeDb.CuisineId = context.Cuisine.Where(x => x.CuisineName == recipe.CuisineName).FirstOrDefault().CuisineId;
+            
             context.Recipe.Update(recipeDb);
             await context.SaveChangesAsync();
         }
@@ -239,7 +260,8 @@ namespace Project.Services
                 ReviewMessage = recipe.ReviewMessage,
                 ReviewDate = recipe.ReviewDate,
                 RecipeId = recipe.RecipeId,
-                ReviewAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.ReviewAuthorId).UserName,
+                //ReviewAuthorId = context.Users.FirstOrDefault(u => u.Id == recipe.ReviewAuthorId).UserName,
+                ReviewAuthorName = context.Users.FirstOrDefault(u => u.Id == recipe.ReviewAuthorId).UserName,
             }).ToList();
 
             if (reviews == null)

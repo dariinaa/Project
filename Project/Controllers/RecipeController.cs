@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Project.Controllers.RecipeAPI;
+using Project.Interfaces;
 
 namespace Project.Controllers
 {
     public class RecipeController:Controller
     {
-        public RecipeService recipeService { get; set; }
-        public RecipeController(RecipeService service)
+        public IRecipeService recipeService { get; set; }
+        public RecipeController(IRecipeService service)
         {
             recipeService = service;     
         }
@@ -86,18 +87,22 @@ namespace Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddRecipe([Bind("RecipeId", "RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeAuthorId", "RecipeCategoryId", "CuisineId")] RecipeViewModel recipeVM)
+        public async Task<IActionResult> AddRecipe([Bind("RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeCategoryName", "CuisineName")] RecipeViewModel recipeVM)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await recipeService.AddRecipe(recipeVM, User);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await recipeService.AddRecipe(recipeVM, User);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred while adding the recipe: {GetFullErrorMessage(ex)}");
+                    return View(recipeVM);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred while adding the recipe: {GetFullErrorMessage(ex)}");
-                return View(recipeVM);
-            }
+            return View(recipeVM);
         }
 
         //update recipe
@@ -119,18 +124,22 @@ namespace Project.Controllers
         //update recipe
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(RecipeViewModel recipe)
+        public async Task<IActionResult> Update([Bind("RecipeId", "RecipeTitle", "RecipeImage", "RecipeInredients", "RecipeDescription", "RecipeIntroduction", "RecipeDirections", "RecipeCookTime", "RecipeCalories", "RecipeServings", "RecipeServings", "RecipeCategoryName", "CuisineName")] RecipeViewModel recipe)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await recipeService.UpdateRecipe(recipe);
-                return RedirectToAction("Index");
+                try
+               {
+                    await recipeService.UpdateRecipe(recipe);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Failed to update the recipe: {GetFullErrorMessage(ex)}");
+                    return View(recipe);
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Failed to update the recipe: {GetFullErrorMessage(ex)}");
-                return View(recipe);
-            }
+            return View(recipe);
         }
 
         //delete recipe

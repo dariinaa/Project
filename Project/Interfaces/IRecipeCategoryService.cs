@@ -10,5 +10,6 @@ namespace Project.Interfaces
         Task DeleteRecipeCategory(string id);
         Task UpdateRecipeCategory(RecipeCategoryViewModel recipeCategory);
         List<RecipeViewModel> GetRecipesByCategory(string categoryId);
+        IEnumerable<string> GetAllRecipeCategoryNames();
     }
 }

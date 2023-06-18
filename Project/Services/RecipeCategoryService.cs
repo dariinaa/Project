@@ -102,6 +102,7 @@ namespace Project.Services
                 throw new ArgumentNullException(nameof(recipeCategoryDb), "Recipe category not found.");
             }
 
+            recipeCategoryDb.RecipeCategoryId = recipeCategory.RecipeCategoryId;
             recipeCategoryDb.RecipeCategoryName = recipeCategory.RecipeCategoryName;
             recipeCategoryDb.RecipeCategoryImage = recipeCategory.RecipeCategoryImage;
 
@@ -146,6 +147,7 @@ namespace Project.Services
                 Cuisine = recipe.Cuisine,
                 ReviewId = recipe.ReviewId,
                 RecipeReviews = recipe.RecipeReviews,
+                RecipeAuthorName = context.Users.FirstOrDefault(x => x.Id == recipe.RecipeAuthorId).UserName,
             }).ToList();
 
             if (recipes == null)

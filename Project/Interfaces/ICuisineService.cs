@@ -10,5 +10,6 @@ namespace Project.Interfaces
         Task DeleteCuisine(string id);
         Task UpdateCuisine(CuisineViewModel cuisine);
         List<RecipeViewModel> GetRecipesByCuisine(string cuisineId);
+        IEnumerable<string> GetAllCuisineNames();
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Data.DataModels;
+using Project.Interfaces;
 using Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,14 @@ builder.Services.AddTransient<UserService, UserService>();
 builder.Services.AddTransient<ReviewService, ReviewService>();
 builder.Services.AddTransient<RecipeCategoryService, RecipeCategoryService>();
 builder.Services.AddTransient<CuisineService, CuisineService>();
+
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ICuisineService, CuisineService>();
+builder.Services.AddScoped<IRecipeCategoryService, RecipeCategoryService>();
+builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -55,7 +63,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager =
         scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { "Admin", "User", "Chef" };
 
     foreach (var role in roles)
     {
@@ -69,7 +77,7 @@ using (var scope = app.Services.CreateScope())
     var userManager =
         scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { "Admin", "User", "Chef" };
 
     string email = "admin@admin.com";
     string password = "ImAdmin!1";

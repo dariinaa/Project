@@ -6,7 +6,7 @@ namespace Project.Services.ViewModels
     public class RecipeViewModel
     {
         [Key]
-        public string RecipeId { get; set; }
+        public string? RecipeId { get; set; }
         public string RecipeTitle { get; set; }
         public string RecipeImage { get; set; }
         public string RecipeInredients { get; set; }
@@ -17,17 +17,20 @@ namespace Project.Services.ViewModels
         public double RecipeCalories { get; set; }
         public int RecipeServings { get; set; }
 
+        public string? RecipeAuthorName { get; set; }
         public string? RecipeAuthorId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
 
+        public string? RecipeCategoryName { get; set; }
         public string? RecipeCategoryId { get; set; }
-        public RecipeCategory RecipeCategory { get; set; }
+        public RecipeCategory? RecipeCategory { get; set; }
 
+        public string? CuisineName { get; set; }
         public string? CuisineId { get; set; }
-        public Cuisine Cuisine { get; set; }
+        public Cuisine? Cuisine { get; set; }
 
         public string? ReviewId { get; set; }
-        public ICollection<Review> RecipeReviews { get; set; }
-        public object HttpContext { get; internal set; }
+        public ICollection<Review>? RecipeReviews { get; set; }
+        //public object HttpContext { get; internal set; }
     }
 }
