@@ -1,6 +1,13 @@
 ﻿
 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+<form method="GET" action="/Recipe/Search" class="form-inline">
+    <input type="text" name="query" class="form-control" placeholder="Search Recipes...">
+    <div class="input-group-append">
+    <button type="submit" class="btn btn-danger">Search</button>
+    </div>
+</form>
+
  @Html.Partial("_GetRecipes")
 
 @section MyFooter

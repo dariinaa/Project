@@ -48,8 +48,16 @@ namespace Project.Services
             var reviews = context.Review.Where(r => r.ReviewAuthorId == id);
             context.Review.RemoveRange(reviews);
 
-            var recipes = context.Recipe.Where(r => r.RecipeAuthorId == id);
-            context.Recipe.RemoveRange(recipes);
+            await context.SaveChangesAsync();
+
+            var recipesToDelete = context.Recipe.Where(r => r.RecipeAuthorId == id).ToList();
+
+            foreach (var recipe in recipesToDelete)
+            {
+                var recipeReviews = context.Review.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                context.Review.RemoveRange(recipeReviews);
+                context.Recipe.Remove(recipe);
+            }
 
             var userRoleMappings = context.UserRoles.Where(ur => ur.UserId == id);
             context.UserRoles.RemoveRange(userRoleMappings);

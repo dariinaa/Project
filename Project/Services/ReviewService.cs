@@ -11,7 +11,6 @@ namespace Project.Services
     public class ReviewService: IReviewService
     {
         private readonly ApplicationDbContext context;
-        //
         private readonly UserManager<IdentityUser> _userManager;
 
         public ReviewService(ApplicationDbContext post, UserManager<IdentityUser> userManager)

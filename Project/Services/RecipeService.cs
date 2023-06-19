@@ -149,6 +149,9 @@ namespace Project.Services
                     throw new ArgumentNullException(nameof(recipeDb), "Recipe not found.");
                 }
 
+                var reviews = context.Review.Where(r => r.RecipeId == recipeDb.RecipeId).ToList();
+                context.Review.RemoveRange(reviews);
+
                 context.Recipe.Remove(recipeDb);
                 await context.SaveChangesAsync();
             }
@@ -271,5 +274,30 @@ namespace Project.Services
 
             return reviews;
         }
+
+        //search bar
+        public List<RecipeViewModel> SearchRecipes(string query)
+        {
+            return context.Recipe
+                .Where(recipe =>
+                    recipe.RecipeTitle.Contains(query) ||
+                    recipe.RecipeInredients.Contains(query) ||
+                    recipe.RecipeDescription.Contains(query)||
+                    recipe.RecipeIntroduction.Contains(query)||
+                    recipe.Cuisine.CuisineName.Contains(query)||
+                    recipe.RecipeCategory.RecipeCategoryName.Contains(query))
+                .Select(recipe => new RecipeViewModel
+                {
+                    RecipeId = recipe.RecipeId,
+                    RecipeTitle = recipe.RecipeTitle,
+                    RecipeImage = recipe.RecipeImage,
+                    RecipeDescription = recipe.RecipeDescription,
+                    RecipeCookTime = recipe.RecipeCookTime,
+                    RecipeAuthorName = context.Users.FirstOrDefault(x => x.Id == recipe.RecipeAuthorId).UserName
+                })
+                .ToList();
+        }
     }
 }
+
+

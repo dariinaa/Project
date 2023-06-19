@@ -9,9 +9,12 @@ namespace Project.Services
     public class CuisineService: ICuisineService
     {
         private readonly ApplicationDbContext context;
-        public CuisineService(ApplicationDbContext post)
+        private readonly IRecipeService recipeService;
+
+        public CuisineService(ApplicationDbContext post, IRecipeService _recipeService)
         {
             context = post;
+            recipeService = _recipeService;
         }
 
         //get all cuisine
@@ -83,9 +86,18 @@ namespace Project.Services
                 throw new ArgumentNullException(nameof(cuisineDb), "Cuisine not found.");
             }
 
-            context.Cuisine.Remove(cuisineDb);
-            await context.SaveChangesAsync();
+            var recipesToDelete = context.Recipe.Where(r => r.CuisineId == id).ToList();
 
+            foreach (var recipe in recipesToDelete)
+            {
+                var reviews = context.Review.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                context.Review.RemoveRange(reviews);
+            }
+
+            context.Recipe.RemoveRange(recipesToDelete);
+            context.Cuisine.Remove(cuisineDb);
+
+            await context.SaveChangesAsync();
         }
 
         //update cuisine

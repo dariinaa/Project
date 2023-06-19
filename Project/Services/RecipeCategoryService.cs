@@ -83,6 +83,15 @@ namespace Project.Services
                 throw new ArgumentNullException(nameof(recipeCategoryDb), "Recipe category not found.");
             }
 
+            var recipesToDelete = context.Recipe.Where(r => r.RecipeCategoryId == id).ToList();
+
+            foreach (var recipe in recipesToDelete)
+            {
+                var reviews = context.Review.Where(r => r.RecipeId == recipe.RecipeId).ToList();
+                context.Review.RemoveRange(reviews);
+            }
+
+            context.Recipe.RemoveRange(recipesToDelete);
             context.RecipeCategory.Remove(recipeCategoryDb);
             await context.SaveChangesAsync();
         }

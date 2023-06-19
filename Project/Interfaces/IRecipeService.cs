@@ -12,5 +12,6 @@ namespace Project.Interfaces
         RecipeViewModel UpdateById(string recipeId);
         Task UpdateRecipe(RecipeViewModel recipe);
         List<ReviewViewModel> GetRecipeReviews(string recipeId);
+        List<RecipeViewModel> SearchRecipes(string query);
     }
 }

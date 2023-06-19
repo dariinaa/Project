@@ -173,5 +173,14 @@ namespace Project.Controllers
                 return View();
             }
         }
+
+        //search bar
+        [HttpGet]
+        public IActionResult Search(string query)
+        {
+            List<RecipeViewModel> searchResults = recipeService.SearchRecipes(query);
+
+            return View(searchResults);
+        }
     }
 }
